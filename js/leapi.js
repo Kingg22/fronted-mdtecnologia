@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:5294/api";
+import { eventManager, BASE_URL } from "./utils.js";
 
 document
   .getElementById("loginRST")
@@ -11,32 +11,34 @@ document
     const celular = document.getElementById("phone").value;
     const contra = document.getElementById("pass").value;
 
-    fetch(`${BASE_URL}/Clientes/usuario`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        nombre: nombre,
-        apellido: apellido,
-        username: username,
-        telefono: celular,
-        correo: correo,
-        password: contra,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data) {
-          console.log(data);
-        } else {
-          alert("Registro fallido");
-        }
+    eventManager(async () => {
+      fetch(`${BASE_URL}/Clientes/usuario`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          nombre: nombre,
+          apellido: apellido,
+          username: username,
+          telefono: celular,
+          correo: correo,
+          password: contra,
+        }),
       })
-      .catch((error) => {
-        console.error("Error:", error);
-        alert("Hubo un problema con el registro, intentelo de nuevo");
-      });
+        .then((response) => response.json())
+        .then((data) => {
+          if (data) {
+            console.log(data);
+          } else {
+            alert("Registro fallido");
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          alert("Hubo un problema con el registro, inténtelo de nuevo");
+        });
+    })();
   });
 
 document
@@ -46,27 +48,29 @@ document
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
 
-    fetch(`${BASE_URL}/Usuarios/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: username,
-        password: password,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.token) {
-          console.log(data.token);
-          window.location.href = "/dashboard";
-        } else {
-          alert("Credenciales incorrectas");
-        }
+    eventManager(async () => {
+      fetch(`${BASE_URL}/Usuarios/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: username,
+          password: password,
+        }),
       })
-      .catch((error) => {
-        console.error("Error:", error);
-        alert("Hubo un problema con el inicio de sesión");
-      });
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.token) {
+            console.log(data.token);
+            window.location.href = "/dashboard";
+          } else {
+            alert("Credenciales incorrectas");
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          alert("Hubo un problema con el inicio de sesión");
+        });
+    })();
   });

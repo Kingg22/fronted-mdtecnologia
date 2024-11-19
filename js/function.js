@@ -1,25 +1,19 @@
-
-
 document.addEventListener('DOMContentLoaded', function () {
-    let slideIndex = 0;
     const slides = document.querySelectorAll('#header-carousel .carousel-item');
+    let slideIndex = 0;
 
-    function showSlide(index) {
+    const showSlide = function (index) {
         slides.forEach((slide, i) => {
             slide.style.display = i === index ? 'block' : 'none';
             slide.classList.toggle('active', i === index);
         });
-    }
+    };
 
-    function nextSlide() {
+    const nextSlide = function () {
         slideIndex = (slideIndex + 1) % slides.length;
         showSlide(slideIndex);
-    }
-
-        
-    setInterval(nextSlide, 8000);
-
-
+    };
+    setInterval(nextSlide, 3000);
     showSlide(slideIndex);
 });
 
