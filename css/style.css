@@ -1641,7 +1641,6 @@ button.bg-dark:focus {
   .mx-xl-5 {
     margin-left: 3rem !important;
   }
-  .pr-xl-5,
   .px-xl-5 {
     padding-right: 3rem !important;
   }
@@ -1963,3 +1962,11 @@ a.text-dark:hover, a.text-dark:focus {
 .carousel-control-next:hover {
     background-color: rgba(0, 0, 0, 0.8);
 }
+
+.news-video {
+  width: 320px; 
+  height: 250px; 
+  margin-right: 20px;
+  border-radius: 10px;
+}
+
