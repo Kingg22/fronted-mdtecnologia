@@ -1963,3 +1963,44 @@ a.text-dark:hover, a.text-dark:focus {
 .carousel-control-next:hover {
     background-color: rgba(0, 0, 0, 0.8);
 }
+
+/* Estilo para los radio buttons */
+.custom-radio .custom-control-input:checked ~ .custom-control-label::before {
+  color: #fff;
+  border-color: var(--blue);
+  background-color: var(--blue);
+}
+
+.custom-radio .custom-control-input:checked ~ .custom-control-label::after {
+  content: '✓';
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.custom-radio .custom-control-label::before {
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 0.25rem;
+  background-color: var(--light);
+  border: 1px solid var(--gray);
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+.custom-radio .custom-control-label {
+  padding-left: 1.8rem;
+  font-size: 0.95rem;
+  color: var(--dark);
+}
+
+.custom-radio:hover .custom-control-label::before {
+  border-color: var(--blue);
+}
+
+.custom-radio .custom-control-input:focus ~ .custom-control-label::before {
+  outline: 2px solid var(--blue);
+}
