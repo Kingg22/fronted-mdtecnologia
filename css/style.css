@@ -2004,12 +2004,10 @@ a.text-dark:hover, a.text-dark:focus {
 .custom-radio .custom-control-input:focus ~ .custom-control-label::before {
   outline: 2px solid var(--blue);
 }
-=======
+
 .news-video {
   width: 320px; 
   height: 250px; 
   margin-right: 20px;
   border-radius: 10px;
 }
-
->>>>>>> f25a0715d1cf24d2df77b58200ae9056191220f7
