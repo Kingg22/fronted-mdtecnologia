@@ -2,6 +2,7 @@ import { BASE_URL, eventManager } from "./utils.js";
 
 const categoriesContainer = document.getElementById("navbar-categorias");
 const typeFilterContainer = document.getElementById("type-filter-container");
+const categoriesHomeContainer = document.getElementById('categorias-bonitas-container');
 
 document.addEventListener('DOMContentLoaded', async function () {
   // --- Menú Desplegable ---
@@ -31,6 +32,8 @@ const cargarCategorias = eventManager(async () => {
       renderCategoriasNavBar(categories);
       if (typeFilterContainer != null)
         renderFiltrosProducto(categories);
+      if (categoriesHomeContainer != null)
+        renderCategoriasHome(categories);
     })
     .catch((error) => {
       console.error("Error al cargar las categorías:", error);
@@ -51,6 +54,50 @@ const renderCategoriasNavBar = function (categories) {
     alert("No se encontraron categorías.");
   }
 }
+
+const renderCategoriasHome = function (categories) {
+  categoriesHomeContainer.innerHTML = "";
+
+  categories.categorias.forEach((category) => {
+    const categoryDiv = document.createElement("div");
+    categoryDiv.className = "col-lg-3 col-md-4 col-sm-6 pb-1";
+
+    const categoryLink = document.createElement("a");
+    categoryLink.className = "text-decoration-none";
+    categoryLink.href = `Productos.html?category=${category.id}`;
+
+    // contenedor para la imagen
+    const catItemDiv = document.createElement("div");
+    catItemDiv.className = "cat-item img-zoom d-flex align-items-center mb-4";
+
+    const imgDiv = document.createElement("div");
+    imgDiv.className = "overflow-hidden";
+    imgDiv.style.width = "150px";
+    imgDiv.style.height = "100px";
+
+    const img = document.createElement("img");
+    img.className = "img-fluid";
+    img.src = category.imagen_url || "img/Imagen't.jpg";
+    img.alt = category.nombre;
+
+    imgDiv.appendChild(img);
+
+    // contenedor del texto
+    const nameDiv = document.createElement("div");
+    nameDiv.className = "flex-fill pl-3";
+
+    const name = document.createElement("h6");
+    name.textContent = category.nombre;
+
+    nameDiv.appendChild(name);
+    // Se construye el resultado final
+    catItemDiv.appendChild(imgDiv);
+    catItemDiv.appendChild(nameDiv);
+    categoryLink.appendChild(catItemDiv);
+    categoryDiv.appendChild(categoryLink);
+    categoriesHomeContainer.appendChild(categoryDiv);
+  });
+};
 
 const renderFiltrosProducto = function (categories) {
   if (categories.categorias?.length > 0) {
