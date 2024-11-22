@@ -1195,56 +1195,16 @@ a.badge:hover, a.badge:focus {
   }
 }
 
-.carousel {
-  position: relative;
-}
-
-.carousel-inner {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-}
-
 .carousel-inner::after {
   display: block;
   clear: both;
   content: "";
 }
 
-.carousel-item {
-  position: relative;
-  display: none;
-  float: left;
-  width: 100%;
-  margin-right: -100%;
-  backface-visibility: hidden;
-  transition: transform 0.6s ease-in-out;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .carousel-item {
     transition: none;
   }
-}
-
-.carousel-item.active {
-  display: block;
-}
-
-.carousel-control-prev,
-.carousel-control-next {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 15%;
-  color: #fff;
-  text-align: center;
-  opacity: 0.5;
-  transition: opacity 0.15s ease;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1261,14 +1221,6 @@ a.badge:hover, a.badge:focus {
   text-decoration: none;
   outline: 0;
   opacity: 0.9;
-}
-
-.carousel-control-prev {
-  left: 0;
-}
-
-.carousel-control-next {
-  right: 0;
 }
 
 @keyframes spinner-border {
@@ -1775,7 +1727,6 @@ a.text-dark:hover, a.text-dark:focus {
   }
 }
 
-/********** Custom CSS ************/
 .h1, h2, h3 {
   font-weight: 700 !important;
 }
@@ -1909,16 +1860,18 @@ a.text-dark:hover, a.text-dark:focus {
 .carousel-inner {
     display: flex;
     transition: transform 0.5s ease-in-out;
+    width: 100%;
 }
 
 .carousel-item {
   object-fit: contain;
   opacity: 0;
-  transition: opacity 0.5s ease-in-out; 
+  transition: opacity 0.5s ease-in-out, transform 0.6s ease-in-out;
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
+  backface-visibility: hidden;
 }
 
 .carousel-item.active {
@@ -1943,6 +1896,8 @@ a.text-dark:hover, a.text-dark:focus {
     align-items: center;
     cursor: pointer;
     z-index: 2;
+    transition: opacity 0.15s ease;
+    opacity: 0.5;
 }
 
 .carousel-control-prev {
@@ -1961,9 +1916,9 @@ a.text-dark:hover, a.text-dark:focus {
 .carousel-control-prev:hover,
 .carousel-control-next:hover {
     background-color: rgba(0, 0, 0, 0.8);
+    opacity: 0.9;
 }
 
-<<<<<<< HEAD
 /* Estilo para los radio buttons */
 .custom-radio .custom-control-input:checked ~ .custom-control-label::before {
   color: #fff;
@@ -2003,11 +1958,4 @@ a.text-dark:hover, a.text-dark:focus {
 
 .custom-radio .custom-control-input:focus ~ .custom-control-label::before {
   outline: 2px solid var(--blue);
-}
-
-.news-video {
-  width: 320px; 
-  height: 250px; 
-  margin-right: 20px;
-  border-radius: 10px;
 }
