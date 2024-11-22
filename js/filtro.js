@@ -90,7 +90,6 @@ function renderPagination() {
 }
 
 // Event para los filtros
-// TODO sumar este filtro a la búsqueda
 document.querySelector('button.btn-primary').addEventListener("click", async () => {
   const selectedFilter = document.querySelector('input[name="type-filter"]:checked').value;
   currentFilter = selectedFilter;
