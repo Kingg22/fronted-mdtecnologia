@@ -139,101 +139,115 @@
     <div class="container-fluid">
       <div class="row px-xl-5">
         <div class="col-12">
-          <nav class="breadcrumb bg-light mb-30">
+          <nav
+            class="breadcrumb bg-light mb-30"
+            aria-label="Ruta de Navegación productos"
+          >
             <a class="breadcrumb-item text-dark" href="Home.html">Inicio</a>
-            <a class="breadcrumb-item text-dark" href="Productos.html"
-              >Tienda</a
-            >
-            <span class="breadcrumb-item active">Mi Carrito</span>
+            <span class="breadcrumb-item active">Productos</span>
           </nav>
         </div>
       </div>
     </div>
     <!-- Breadcrumb End -->
 
-<!-- Contenedor de filtros y productos -->
-<div class="container-fluid">
-  <div class="row px-xl-5">
-    <!-- Filtros -->
-    <div class="col-lg-3 col-md-4">
-      <!-- Filtro por Tipo -->
-      <div class="bg-light p-4 mb-30">
-        <h5 class="section-title position-relative text-uppercase mb-3">
-          <span class="bg-secondary pr-3">Filtrar por Tipo</span>
-        </h5>
-        <form>
-          <div class="custom-control custom-radio">
-            <input
-              type="radio"
-              class="custom-control-input"
-              name="type-filter"
-              value="de6c04ab-0309-4c42-95fd-a18b956ce594"
-              id="type-todos"
-              checked
-            />
-            <label class="custom-control-label" for="type-todos">Todos</label>
+    <!-- Contenedor de filtros y productos -->
+    <div class="container-fluid">
+      <div class="row px-xl-5">
+        <!-- Filtros -->
+        <div class="col-lg-3 col-md-4">
+          <!-- Filtro por Tipo -->
+          <div class="bg-light p-4 mb-30">
+            <h5 class="section-title position-relative text-uppercase mb-3">
+              <span class="bg-secondary pr-3">Filtrar por Tipo</span>
+            </h5>
+            <form>
+              <div class="custom-control custom-radio">
+                <input
+                  type="radio"
+                  class="custom-control-input"
+                  name="type-filter"
+                  value="de6c04ab-0309-4c42-95fd-a18b956ce594"
+                  id="type-todos"
+                  checked
+                />
+                <label class="custom-control-label" for="type-todos"
+                  >Todos</label
+                >
+              </div>
+              <div class="custom-control custom-radio">
+                <input
+                  type="radio"
+                  class="custom-control-input filtromita"
+                  name="type-filter"
+                  value="de6c04ab-0309-4c42-95fd-a18b956ce594"
+                  id="type-component"
+                  data-category-id="1"
+                />
+                <label class="custom-control-label" for="type-component"
+                  >Componentes</label
+                >
+              </div>
+              <div class="custom-control custom-radio">
+                <input
+                  type="radio"
+                  class="custom-control-input filtromita"
+                  name="type-filter"
+                  value="de6c04ab-0309-4c42-95fd-a18b956ce594"
+                  id="type-props"
+                  data-category-id="2"
+                />
+                <label class="custom-control-label" for="type-props"
+                  >Accesorios</label
+                >
+              </div>
+              <div class="custom-control custom-radio">
+                <input
+                  type="radio"
+                  class="custom-control-input filtromita"
+                  name="type-filter"
+                  value="de6c04ab-0309-4c42-95fd-a18b956ce594"
+                  id="type-monitors"
+                  data-category-id="3"
+                />
+                <label class="custom-control-label" for="type-monitors"
+                  >Monitores</label
+                >
+              </div>
+              <div class="custom-control custom-radio">
+                <input
+                  type="radio"
+                  class="custom-control-input filtromita"
+                  name="type-filter"
+                  value="de6c04ab-0309-4c42-95fd-a18b956ce594"
+                  id="type-device"
+                  data-category-id="4"
+                />
+                <label class="custom-control-label" for="type-device"
+                  >Equipos</label
+                >
+              </div>
+              <div class="custom-control custom-radio">
+                <input
+                  type="radio"
+                  class="custom-control-input filtromita"
+                  name="type-filter"
+                  value="de6c04ab-0309-4c42-95fd-a18b956ce594"
+                  id="type-office"
+                  data-category-id="5"
+                />
+                <label class="custom-control-label" for="type-office"
+                  >Oficina</label
+                >
+              </div>
+              <!-- Botón Confirmar Filtro -->
+              <button type="button" class="btn btn-primary mt-3 w-100">
+                Filtrar
+              </button>
+            </form>
           </div>
-          <div class="custom-control custom-radio">
-            <input
-              type="radio"
-              class="custom-control-input filtromita"
-              name="type-filter"
-              value="de6c04ab-0309-4c42-95fd-a18b956ce594"
-              id="type-component"
-              data-category-id="1"
-            />
-            <label class="custom-control-label" for="type-component">Componentes</label>
-          </div>
-          <div class="custom-control custom-radio">
-            <input
-              type="radio"
-              class="custom-control-input filtromita"
-              name="type-filter"
-              value="de6c04ab-0309-4c42-95fd-a18b956ce594"
-              id="type-props"
-              data-category-id="2"
-            />
-            <label class="custom-control-label" for="type-props">Accesorios</label>
-          </div>
-          <div class="custom-control custom-radio">
-            <input
-              type="radio"
-              class="custom-control-input filtromita"
-              name="type-filter"
-              value="de6c04ab-0309-4c42-95fd-a18b956ce594"
-              id="type-monitors"
-              data-category-id="3"
-            />
-            <label class="custom-control-label" for="type-monitors">Monitores</label>
-          </div>
-          <div class="custom-control custom-radio">
-            <input
-              type="radio"
-              class="custom-control-input filtromita"
-              name="type-filter"
-              value="de6c04ab-0309-4c42-95fd-a18b956ce594"
-              id="type-device"
-              data-category-id="4"
-            />
-            <label class="custom-control-label" for="type-device">Equipos</label>
-          </div>
-          <div class="custom-control custom-radio">
-            <input
-              type="radio"
-              class="custom-control-input filtromita"
-              name="type-filter"
-              value="de6c04ab-0309-4c42-95fd-a18b956ce594"
-              id="type-office"
-              data-category-id="5"
-            />
-            <label class="custom-control-label" for="type-office">Oficina</label>
-          </div>
-          <!-- Botón Confirmar Filtro -->
-          <button type="button" class="btn btn-primary mt-3 w-100">Filtrar</button>
-        </form>
-      </div>
-    </div>
-    <!-- Filtros - END -->
+        </div>
+        <!-- Filtros - END -->
 
         <!-- Productos -->
         <div class="col-lg-9 col-md-8">
@@ -241,7 +255,7 @@
           <!-- Productos generados aquí de forma dinámica -->
           <!-- Botones de cambio de página -->
           <div class="col-12">
-            <nav>
+            <nav aria-label="Navegación de paginas productos">
               <ul class="pagination justify-content-center">
                 <!-- Se carga de forma dinámica los botones de paginación -->
               </ul>
