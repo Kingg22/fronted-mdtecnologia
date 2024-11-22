@@ -63,7 +63,7 @@ document
         .then((data) => {
           if (data.token) {
             console.log(data.token);
-            window.location.href = "/dashboard";
+            // window.location.href = "/dashboard";
           } else {
             alert("Credenciales incorrectas");
           }

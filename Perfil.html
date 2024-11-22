@@ -183,30 +183,12 @@
           <thead class="bg-light">
             <tr>
               <th>#Pedido</th>
-              <th>Artículos</th>
+              <th>Total Pedidos</th>
               <th>Estado</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>#3456</td>
-              <td>Computadora HP x1 + mouse...</td>
-              <td>
-                <span class="badge bg-warning text-dark">En Proceso</span>
-              </td>
-            </tr>
-            <tr>
-              <td>#2815</td>
-              <td>Monitor de 1920x1080 X1</td>
-              <td><span class="badge bg-danger text-white">Cancelado</span></td>
-            </tr>
-            <tr>
-              <td>#1567</td>
-              <td>Laptop Dell x1 + Disco duro de...</td>
-              <td>
-                <span class="badge bg-success text-white">Entregado</span>
-              </td>
-            </tr>
+          <tbody id="orders_table_body">
+            <!-- Generacion de filas pedidos -->      
           </tbody>
         </table>
       </div>
@@ -275,6 +257,8 @@
     <!-- Footer End -->
 
     <!-- JavaScript -->
-    <script type="module" src="js/main.js"></script>
+        <script type="module" src="js/perfilfuntion.js"></script>
+        <script type="module" src="js/main.js"></script>
+
   </body>
 </html>
