@@ -42,7 +42,7 @@ const renderCategoriasNavBar = function (categories) {
     categoriesContainer.innerHTML = "";
     categories.categorias.forEach((category) => {
       const categoryLink = document.createElement("a");
-      // categoryLink.href = `Productos.html?category=${encodeURIComponent(category)}`;
+      categoryLink.href = `Productos.html?category=${category.id}`;
       categoryLink.className = "nav-item nav-link";
       categoryLink.textContent = category.nombre;
       categoriesContainer.appendChild(categoryLink);
@@ -54,6 +54,10 @@ const renderCategoriasNavBar = function (categories) {
 
 const renderFiltrosProducto = function (categories) {
   if (categories.categorias?.length > 0) {
+    // Necesario para darle checked = true a la categoría si viene de otra pestaña
+    const urlParams = new URLSearchParams(window.location.search);
+    const categoryFilter = urlParams.get('category');
+
     const radioDivAll = document.createElement("div");
     radioDivAll.className = "custom-control custom-radio";
 
@@ -63,7 +67,7 @@ const renderFiltrosProducto = function (categories) {
     radioInputAll.name = "type-filter";
     radioInputAll.value = "";
     radioInputAll.id = "type-all";
-    radioInputAll.checked = true;
+    radioInputAll.checked = !categoryFilter;
 
     const radioLabelAll = document.createElement("label");
     radioLabelAll.className = "custom-control-label";
@@ -86,6 +90,7 @@ const renderFiltrosProducto = function (categories) {
       radioInput.value = category.id;
       radioInput.id = `type-${category.nombre.toLowerCase()}`;
       radioInput.setAttribute('data-category-id', category.id);
+      radioInput.checked = category.id === categoryFilter;
 
       const radioLabel = document.createElement("label");
       radioLabel.className = "custom-control-label";

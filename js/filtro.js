@@ -1,6 +1,11 @@
 import { BASE_URL, eventManager } from "./utils.js";
 
 document.addEventListener("DOMContentLoaded", async function () {
+  // agrega al filtro de categorías si viene de otra pestaña
+  const urlParams = new URLSearchParams(window.location.search);
+  const categoryFilter = urlParams.get('category');
+  if (categoryFilter)
+    currentFilter = categoryFilter;
   await searchProducts();
 });
 
