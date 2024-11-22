@@ -1,3 +1,4 @@
+// Carrusel del home
 document.addEventListener('DOMContentLoaded', function () {
     const slides = document.querySelectorAll('#header-carousel .carousel-item');
     let slideIndex = 0;

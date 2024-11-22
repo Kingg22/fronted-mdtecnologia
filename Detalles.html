@@ -75,19 +75,17 @@
             class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 bg-light"
             id="navbar-vertical"
             style="width: calc(100% - 30px); z-index: 999"
+            aria-label="Navegación de categorías"
           >
-            <div class="navbar-nav w-100">
-              <a href="" class="nav-item nav-link">Equipos</a>
-              <a href="" class="nav-item nav-link">Componentes</a>
-              <a href="" class="nav-item nav-link">Accesorios</a>
-              <a href="" class="nav-item nav-link">Monitores/Proyectores</a>
-              <a href="" class="nav-item nav-link">Artículos de Oficina</a>
+            <div class="navbar-nav w-100" id="navbar-categorias">
+              <!-- Categorías generadas de forma dinámica -->
             </div>
           </nav>
         </div>
         <div class="col-lg-9">
           <nav
             class="navbar navbar-expand-lg bg-dark navbar-dark py-3 py-lg-0 px-0"
+            aria-label="Barra de navegación principal"
           >
             <a href="" class="text-decoration-none d-block d-lg-none">
               <img src="img\logoMDT.png" alt="logo" />
@@ -317,8 +315,7 @@
     <!-- Footer End -->
 
     <!-- JavaScript Libraries -->
-    <script src="js/main.js"></script>
+    <script type="module" src="js/main.js"></script>
     <script src="js/carousel.js"></script>
-    <script src="js/submenu.js"></script>
   </body>
 </html>
