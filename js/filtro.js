@@ -1,81 +1,115 @@
-import { BASE_URL } from "./utils.js";
+import { BASE_URL, eventManager } from "./utils.js";
 
 document.addEventListener("DOMContentLoaded", async function () {
-  const limit = 12;
-  let page = 0; 
-  let currentFilter = "all"; 
-  const filtContainer = document.getElementById("filtcontiner");
-  const paginationContainer = document.querySelector(".pagination");
+  await searchProducts();
+});
 
-  // Función para cargar productos con filtro y cambiar pagina
-  function cargarProductos() {
-    const offset = page * limit;
-    fetch(`https://dummyjson.com/products?limit=${limit}&skip=${offset}&category=${currentFilter === "all" ? "" : currentFilter}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
+const size = 12;
+let page = 0;
+let cantidad = 0;
+let totalPages = 0;
+let currentFilter = "";
+const filtContainer = document.getElementById("filtcontiner");
+const paginationContainer = document.querySelector(".pagination");
+
+// Función para buscar productos a la API
+const searchProducts = eventManager(async function cargarProductos() {
+  let opciones = new URLSearchParams({
+    'size': size,
+    'page': page,
+    'categoria': currentFilter
+  });
+  fetch(`${BASE_URL}/Productos?${opciones}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      cantidad = data.count;
+      totalPages = Math.ceil(cantidad / size);
+      renderProducts(data.productos);
+      renderPagination();
     })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.products && data.products.length) {
-          filtContainer.innerHTML = "";
-          data.products.forEach((producto) => {
-            const productoDiv = document.createElement("div");
-            productoDiv.className = "col-lg-4 col-md-6";
+    .catch((error) => {
+      console.error("Error:", error);
+      alert("Hubo un problema al cargar los productos. Intente nuevamente.");
+    });
+})
 
-            const imgSrc = producto.images && producto.images[0] ? producto.images[0] : "img/Imagen't.png";
-            const price = producto.price ? `$${producto.price.toFixed(2)}` : "No disponible";
+function renderProducts(products) {
+  if (products.length > 0) {
+    filtContainer.innerHTML = "";
+    products.forEach((producto) => {
+      const productoDiv = document.createElement("div");
+      productoDiv.className = "col-lg-4 col-md-6";
 
-            productoDiv.innerHTML = `
-              <div class="product-item bg-light mb-4">
-                <div class="product-img position-relative overflow-hidden">
-                  <img class="img-fluid w-100" src="${imgSrc}" alt="${producto.title}" style="width: 150px; height: 280px; object-fit: cover;" />
-                </div>
-                <div class="text-center py-4">
-                  <a class="h6 text-decoration-none text-truncate" href="#">${producto.title}</a>
-                  <div class="d-flex align-items-center justify-content-center mt-2">
-                    <h5>${price}</h5>
-                  </div>
-                </div>
+      const imgSrc = producto.imagenes?.[0]?.url || "img/Imagen't.png";
+      const price = producto.proveedores?.[0]?.precio || "No disponible";
+
+      productoDiv.innerHTML = `
+          <div class="product-item bg-light mb-4">
+            <div class="product-img position-relative overflow-hidden">
+              <img class="img-fluid w-100" src="${imgSrc}" alt="${producto.nombre}" style="width: 150px; height: 280px; object-fit: cover;" />
+            </div>
+            <div class="text-center py-4">
+              <a class="h6 text-decoration-none text-truncate" href="#">${producto.nombre}</a>
+              <div class="d-flex align-items-center justify-content-center mt-2">
+                <h5>$${price}</h5>
               </div>
-            `;
-            filtContainer.appendChild(productoDiv);
-          });
-        } else {
-          filtContainer.innerHTML = "<p>No se encontraron productos.</p>";
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        alert("Hubo un problema al cargar los productos. Intente nuevamente.");
-      });
+            </div>
+          </div>
+        `;
+      filtContainer.appendChild(productoDiv);
+    });
+  } else {
+    filtContainer.innerHTML = "<p>No se encontraron productos.</p>";
   }
+}
 
-  // Event para los filtros
-  document.querySelector('button.btn-primary').addEventListener("click", () => {
-    const selectedFilter = document.querySelector('input[name="type-filter"]:checked').value;
-    currentFilter = selectedFilter;
-    page = 0;
-    cargarProductos();
-  });
+function renderPagination() {
+  paginationContainer.innerHTML = "";
 
-  // Event para cambio de pagina
-  paginationContainer.addEventListener("click", (e) => {
-    if (e.target.tagName === "A" && !e.target.parentElement.classList.contains("disabled")) {
-      e.preventDefault();
-      const action = e.target.textContent.trim();
-      if (action === "Anterior" && page > 0) {
-        page -= 1;
-      } else if (action === "Siguiente") {
-        page += 1;
-      } else if (!isNaN(action)) {
-        page = parseInt(action, 10) - 1;
-      }
-      cargarProductos();
+  const previous = document.createElement("li");
+  previous.className = `page-item ${page === 0 ? "disabled" : ""}`;
+  previous.innerHTML = `<a class="page-link" href="#">Anterior</a>`;
+  paginationContainer.appendChild(previous);
+
+  for (let i = 0; i < totalPages; i++) {
+    const pageItem = document.createElement("li");
+    pageItem.className = `page-item ${i === page ? "active" : ""}`;
+    pageItem.innerHTML = `<a class="page-link" href="#">${i + 1}</a>`;
+    paginationContainer.appendChild(pageItem);
+  }
+  const next = document.createElement("li");
+  next.className = `page-item ${page === totalPages - 1 ? "disabled" : ""}`;
+  next.innerHTML = `<a class="page-link" href="#">Siguiente</a>`;
+  paginationContainer.appendChild(next);
+}
+
+// Event para los filtros
+// TODO sumar este filtro a la búsqueda
+document.querySelector('button.btn-primary').addEventListener("click", async () => {
+  const selectedFilter = document.querySelector('input[name="type-filter"]:checked').value;
+  currentFilter = selectedFilter;
+  page = 0;
+  await searchProducts();
+});
+
+// Event para cambio de pagina
+paginationContainer.addEventListener("click", async (e) => {
+  if (e.target.tagName === "A" && !e.target.parentElement.classList.contains("disabled")) {
+    e.preventDefault();
+    const action = e.target.textContent.trim();
+    if (action === "Anterior" && page > 0) {
+      page -= 1;
+    } else if (action === "Siguiente") {
+      page += 1;
+    } else if (!isNaN(action)) {
+      page = parseInt(action, 10) - 1;
     }
-  });
-
-
-  cargarProductos();
+    await searchProducts();
+  }
 });
