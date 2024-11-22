@@ -1,9 +1,10 @@
+import { BASE_URL } from "./utils.js";
 document.addEventListener("DOMContentLoaded", async function () {
     const categoriesContainer = document.querySelector("#navbar-vertical .navbar-nav");
   
     async function cargarCategorias() {
       try {
-        const response = await fetch("https://dummyjson.com/products/categories");
+        const response = await fetch("${BASE_URL}/categories");
         const categories = await response.json();
   
         if (categories && Array.isArray(categories)) {

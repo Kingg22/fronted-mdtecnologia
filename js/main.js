@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     //        </div>
     //      `;
    
-    //      compoContainer.appendChild(productoDiv);
+  //      compoContainer.appendChild(productoDiv);
     //    });
     //  } catch (error) {
     //    console.error("Error al obtener los datos de la API:", error);
