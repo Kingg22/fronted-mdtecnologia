@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const productId = new URLSearchParams(window.location.search).get("id");
     if (!productId)
         window.location.href = '/Productos.html';
+    window.product = {};
     // Carrusel de imágenes producto
     const items = document.querySelectorAll(".carousel-item");
     let currentIndex = 0;
@@ -51,6 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
             .then((response) => response.json())
             .then((data) => {
                 if (data?.producto) {
+                    window.product = data.producto;
                     document.getElementById("product-name").innerHTML = data.producto.nombre;
                     document.getElementById('producto-name-breadcrumb').textContent = data.producto.nombre;
                     document.getElementById("product-brand").innerHTML = data.producto.marca;
@@ -67,4 +69,28 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.error("Error:", error);
             });
     })();
+
+    document.getElementById("add-cart").addEventListener("click", () => {
+        const product = window.product;
+        if (!product) {
+            return false;
+        }
+
+        product["custom_amount"] = document.getElementById("product-amount").value || 1;
+
+        const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+        cart.push(product);
+
+        localStorage.setItem("cart", JSON.stringify(cart));
+        cartTotal(cart);
+    });
+
+    const cartTotal = function (cart) {
+        let total = 0;
+        cart.forEach(element => {
+            console.log(element);
+            total = total + parseInt(element.custom_amount);
+        });
+        document.getElementById("cart-total").innerHTML = total;
+    }
 });

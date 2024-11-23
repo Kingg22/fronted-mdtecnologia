@@ -27,7 +27,6 @@ const searchProducts = eventManager(async function cargarProductos() {
   fetch(`${BASE_URL}/Productos?${opciones}`)
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
       cantidad = data.count;
       totalPages = Math.ceil(cantidad / size);
       renderProducts(data.productos);
