@@ -43,11 +43,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       </div>
     </td>
     <td class="align-middle">$${element.proveedores[0].precio * element.cantidad}</td>
-    <td class="align-middle">
-      <button class="btn btn-sm btn-danger">
-        <i class="fa fa-times"></i>
-      </button>
-    </td>
     </tr>`;
     });
 
