@@ -3,6 +3,7 @@ import { BASE_URL, eventManager } from "./utils.js";
 const categoriesContainer = document.getElementById("navbar-categorias");
 const typeFilterContainer = document.getElementById("type-filter-container");
 const categoriesHomeContainer = document.getElementById('categorias-bonitas-container');
+export const cart = JSON.parse(localStorage.getItem("cart") || "[]");
 
 document.addEventListener('DOMContentLoaded', async function () {
   // --- Menú Desplegable ---
@@ -43,6 +44,7 @@ document.addEventListener('DOMContentLoaded', async function () {
   });
 
   await cargarCategorias();
+  cartTotal(cart);
 });
 
 const cargarCategorias = eventManager(async () => {
@@ -171,4 +173,13 @@ const renderFiltrosProducto = function (categories) {
   } else {
     console.error("No se encontraron categorías.");
   }
+}
+
+export const cartTotal = function (cart) {
+  let total = 0;
+  cart.forEach(element => {
+    console.log(element);
+    total = total + parseInt(element.custom_amount);
+  });
+  document.getElementById("cart-total").innerHTML = total;
 }

@@ -1,4 +1,5 @@
 import { BASE_URL, eventManager } from "./utils.js";
+import { cartTotal, cart } from "./main.js"
 
 // Javascript para Detalle producto
 document.addEventListener("DOMContentLoaded", () => {
@@ -56,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     document.getElementById("product-name").innerHTML = data.producto.nombre;
                     document.getElementById('producto-name-breadcrumb').textContent = data.producto.nombre;
                     document.getElementById("product-brand").innerHTML = data.producto.marca;
-                    document.getElementById("product-price").textContent = "$"+data.producto.proveedores?.[0]?.precio || "No disponible";
+                    document.getElementById("product-price").textContent = "$" + data.producto.proveedores?.[0]?.precio || "No disponible";
                     document.getElementById("product-description").innerHTML = data.producto.descripcion;
 
                     let imgs_html = "";
@@ -78,20 +79,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         product["custom_amount"] = document.getElementById("product-amount").value || 1;
-
-        const cart = JSON.parse(localStorage.getItem("cart") || "[]");
         cart.push(product);
 
         localStorage.setItem("cart", JSON.stringify(cart));
         cartTotal(cart);
     });
-
-    const cartTotal = function (cart) {
-        let total = 0;
-        cart.forEach(element => {
-            console.log(element);
-            total = total + parseInt(element.custom_amount);
-        });
-        document.getElementById("cart-total").innerHTML = total;
-    }
 });
