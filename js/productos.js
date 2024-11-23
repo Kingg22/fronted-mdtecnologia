@@ -45,7 +45,7 @@ function renderProducts(products) {
       productoDiv.className = "col-lg-4 col-md-6";
 
       const imgSrc = producto.imagenes?.[0]?.url || "img/Imagen't.png";
-      const price = "$"+producto.proveedores?.[0]?.precio || "No disponible";
+      const price = "$" + producto.proveedores?.[0]?.precio.toFixed(2) || "No disponible";
 
       productoDiv.innerHTML = `
           <div class="product-item bg-light mb-4">
