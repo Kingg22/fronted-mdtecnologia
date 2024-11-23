@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     document.getElementById("product-name").innerHTML = data.producto.nombre;
                     document.getElementById('producto-name-breadcrumb').textContent = data.producto.nombre;
                     document.getElementById("product-brand").innerHTML = data.producto.marca;
-                    document.getElementById("product-price").textContent = "$" + data.producto.proveedores?.[0]?.precio || "No disponible";
+                    document.getElementById("product-price").textContent = "$" + data.producto.proveedores?.[0]?.precio.toFixed(2) || "No disponible";
                     document.getElementById("product-description").innerHTML = data.producto.descripcion;
 
                     let imgs_html = "";
@@ -75,10 +75,15 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("add-cart").addEventListener("click", () => {
         const product = window.product;
         if (!product) {
-            return false;
+            return;
         }
 
-        product["custom_amount"] = document.getElementById("product-amount").value || 1;
+        let cantidad = document.getElementById("product-amount").value;
+        cantidad = parseInt(cantidad);
+        if (!cantidad || cantidad === 0) {
+            return;
+        }
+        product["cantidad"] = cantidad;
         cart.push(product);
 
         localStorage.setItem("cart", JSON.stringify(cart));

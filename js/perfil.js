@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   }).then((response) => response.json())
     .then((data) => {
       const cliente = data.cliente;
-
+      sessionStorage.setItem('cliente', JSON.stringify(cliente));
       const fullName =
         `${cliente.nombre || ""} ${cliente.apellido || ""}`.trim() ||
         "Nombre Confidencial";
@@ -58,12 +58,12 @@ document.addEventListener("DOMContentLoaded", async function () {
       Authorization: `Bearer ${token}`,
       "accept": "application/json",
     },
-  }).then(response => response.json)
-    .then(ventas => {
+  }).then(response => response.json())
+    .then(data => {
       ordersTableBody.innerHTML = "";
 
-      if (ventas?.length > 0) {
-        ventas.forEach((venta) => {
+      if (data.ventas?.length > 0) {
+        data.ventas.forEach((venta) => {
           const row = document.createElement("tr");
 
           // ID del pedido
@@ -83,21 +83,22 @@ document.addEventListener("DOMContentLoaded", async function () {
           statusBadge.classList.add("badge");
 
           switch (venta.estado) {
-            case 0:
+            case "PROCESANDO":
               statusBadge.textContent = "Procesando";
               statusBadge.classList.add("bg-warning", "text-dark");
               break;
-            case 1:
+            case "CANCELADO":
               statusBadge.textContent = "Cancelado";
               statusBadge.classList.add("bg-danger", "text-white");
               break;
-            case 2:
+            case "ENTREGADO":
               statusBadge.textContent = "Entregado";
               statusBadge.classList.add("bg-success", "text-white");
               break;
             default:
-              statusBadge.textContent = "En espera";
+              statusBadge.textContent = venta.estado;
               statusBadge.classList.add("bg-secondary", "text-white");
+              console.warn('No se ha podido pintar el estado del producto correctamente')
               break;
           }
 

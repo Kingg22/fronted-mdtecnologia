@@ -177,8 +177,9 @@ const renderFiltrosProducto = function (categories) {
 
 export const cartTotal = function (cart) {
   let total = 0;
+  console.log('Carrito: ', cart)
   cart.forEach(element => {
-    total = total + parseInt(element.custom_amount);
+    total = total + parseInt(element.cantidad);
   });
   document.getElementById("cart-total").innerHTML = total;
 }
