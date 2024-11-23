@@ -45,7 +45,7 @@ function renderProducts(products) {
       productoDiv.className = "col-lg-4 col-md-6";
 
       const imgSrc = producto.imagenes?.[0]?.url || "img/Imagen't.png";
-      const price = producto.proveedores?.[0]?.precio || "No disponible";
+      const price = "$"+producto.proveedores?.[0]?.precio || "No disponible";
 
       productoDiv.innerHTML = `
           <div class="product-item bg-light mb-4">
@@ -55,7 +55,7 @@ function renderProducts(products) {
             <div class="text-center py-4">
               <a class="h6 text-decoration-none text-truncate" href="Detalles.html?id=${producto.id}">${producto.nombre}</a>
               <div class="d-flex align-items-center justify-content-center mt-2">
-                <h5>$${price}</h5>
+                <h5>${price}</h5>
               </div>
             </div>
           </div>

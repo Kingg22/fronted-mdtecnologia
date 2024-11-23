@@ -185,11 +185,9 @@
 
         <div class="col-lg-7 h-auto mb-30">
           <div class="h-100 bg-light p-30">
-            <h3 id="product-name">{{NAME}}</h3>
-            <h3 id="product-brand" class="font-weight-semi-bold mb-4">
-              {{SUBTITLE}}
-            </h3>
-            <p id="product-description" class="mb-4">{{DESCRIPTION}}</p>
+            <h3 id="product-name">Nombre</h3>
+            <h5 id="product-brand" class="font-weight-semi-bold mb-4">Marca</h5>
+            <h3 id="product-price" class="font-weight-bold mb-4">Precio</h3>
 
             <div class="d-flex align-items-center mb-4 pt-2">
               <div class="input-group quantity mr-3" style="width: 130px">
@@ -214,6 +212,17 @@
               <button class="btn btn-primary px-3" id="add-cart">
                 <i class="fa fa-shopping-cart mr-1"></i>Añadir al Carrito
               </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="bg-light p-30">
+            <div class="tab-content">
+              <div class="tab-pane fade show active" id="tab-pane-1">
+                <h4 class="mb-3">Descripción del Producto</h4>
+                <p id="product-description"></p>
+              </div>
             </div>
           </div>
         </div>

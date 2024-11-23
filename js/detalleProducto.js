@@ -56,6 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     document.getElementById("product-name").innerHTML = data.producto.nombre;
                     document.getElementById('producto-name-breadcrumb').textContent = data.producto.nombre;
                     document.getElementById("product-brand").innerHTML = data.producto.marca;
+                    document.getElementById("product-price").textContent = "$"+data.producto.proveedores?.[0]?.precio || "No disponible";
                     document.getElementById("product-description").innerHTML = data.producto.descripcion;
 
                     let imgs_html = "";

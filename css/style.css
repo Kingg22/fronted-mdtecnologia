@@ -273,6 +273,12 @@ h6,
   margin-left: -15px;
 }
 
+.col {
+  flex-basis: 0;
+  flex-grow: 1;
+  max-width: 100%;
+}
+
 .col-6,
 .col-12,
 .col-sm-6,
@@ -438,6 +444,14 @@ h6,
 
 .table-responsive > .table-bordered {
   border: 0;
+}
+
+.tab-content > .tab-pane {
+  display: none;
+}
+
+.tab-content > .active {
+  display: block;
 }
 
 .form-control {
@@ -1623,4 +1637,12 @@ h6 {
 .carousel-control-next:hover {
   background-color: rgba(0, 0, 0, 0.8);
   opacity: 0.9;
+}
+
+.fade {
+  transition: opacity 0.15s linear;
+}
+
+.fade:not(.show) {
+  opacity: 0;
 }
