@@ -1,9 +1,7 @@
 // Javascript para Detalle producto
 document.addEventListener("DOMContentLoaded", () => {
-    const carousel = document.querySelector("#carousel .carousel-inner");
+    // Carrusel de imágenes producto
     const items = document.querySelectorAll(".carousel-item");
-    const prevButton = document.getElementById("prev");
-    const nextButton = document.getElementById("next");
     let currentIndex = 0;
 
     const updateCarousel = () => {
@@ -15,21 +13,17 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
-    prevButton.addEventListener("click", () => {
+    document.getElementById("prev").addEventListener("click", () => {
         currentIndex = (currentIndex > 0) ? currentIndex - 1 : items.length - 1;
         updateCarousel();
     });
 
-    nextButton.addEventListener("click", () => {
+    document.getElementById("next").addEventListener("click", () => {
         currentIndex = (currentIndex < items.length - 1) ? currentIndex + 1 : 0;
         updateCarousel();
     });
-});
 
-(function () {
-    "use strict";
-
-    // Product Quantity
+    // Productos Cantidad
     document.querySelectorAll('.quantity button').forEach(function (button) {
         button.addEventListener('click', function () {
             let input = button.closest('.quantity').querySelector('input');
@@ -45,4 +39,4 @@ document.addEventListener("DOMContentLoaded", () => {
             input.value = newVal;
         });
     });
-})();
+});
