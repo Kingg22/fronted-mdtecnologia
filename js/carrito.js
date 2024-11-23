@@ -13,8 +13,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     let tr_html = "";
     cart.forEach(element => {
       tr_html += `<tr>
-    <td class="align-middle">
-      <img src="${element.imagenes[0].url}" alt="" style="width: 50px" />
+    <td class="align-middle" style="text-align: left;">
+      <img src="${element.imagenes[0].url}" alt="" style="width: 50px; margin-right: 10px;" />
       ${element.nombre}
     </td>
     <td class="align-middle">$${element.proveedores[0].precio}</td>

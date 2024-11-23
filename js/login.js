@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             if (data?.token) {
               sessionStorage.setItem('token', data.token);
               sessionStorage.setItem('id_cliente', data.cliente?.id);
-              sessionStorage.setItem('id_usuario', data.cliente?.id_usuario);
+              sessionStorage.setItem('cliente', JSON.stringify(data.cliente));
               window.location.href = "/Perfil.html";
             } else {
               alert("Credenciales incorrectas");

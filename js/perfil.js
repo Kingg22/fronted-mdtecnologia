@@ -7,6 +7,12 @@ document.addEventListener("DOMContentLoaded", async function () {
   const token = window.sessionStorage.getItem('token');
   if (!token)
     window.location.href = "/Login.html";
+  document.getElementById("logout_button").addEventListener("click", () => {
+    localStorage.clear();
+    sessionStorage.clear();
+    window.location.href = "/Login.html";
+  });
+
   fetch(`${BASE_URL}/Clientes/${id_cliente}`, {
     method: "GET",
     headers: {
