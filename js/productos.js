@@ -24,12 +24,7 @@ const searchProducts = eventManager(async function cargarProductos() {
     'page': page,
     'categoria': currentFilter
   });
-  fetch(`${BASE_URL}/Productos?${opciones}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
+  fetch(`${BASE_URL}/Productos?${opciones}`)
     .then((response) => response.json())
     .then((data) => {
       console.log(data);
@@ -39,8 +34,7 @@ const searchProducts = eventManager(async function cargarProductos() {
       renderPagination();
     })
     .catch((error) => {
-      console.error("Error:", error);
-      alert("Hubo un problema al cargar los productos. Intente nuevamente.");
+      console.error("Error al cargar producto:", error);
     });
 })
 

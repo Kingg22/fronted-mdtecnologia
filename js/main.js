@@ -22,6 +22,26 @@ document.addEventListener('DOMContentLoaded', async function () {
     });
   }
 
+  // evento de mostrar / ocultar contraseña
+  document.querySelectorAll(".toggle-password").forEach((img) => {
+    img.addEventListener("click", function () {
+      const target = document.getElementById(this.dataset.target);
+      if (target.type === "password") {
+        target.type = "text";
+      } else {
+        target.type = "password";
+      }
+    });
+  });
+
+  document.getElementById("clearButton").addEventListener('click', () => {
+    const form = document.getElementById('searchForm');
+    if (form) {
+      form.submit();
+      form.reset();
+    }
+  });
+
   await cargarCategorias();
 });
 
@@ -51,7 +71,7 @@ const renderCategoriasNavBar = function (categories) {
       categoriesContainer.appendChild(categoryLink);
     });
   } else {
-    alert("No se encontraron categorías.");
+    console.error("No se encontraron categorías.");
   }
 }
 
@@ -149,6 +169,6 @@ const renderFiltrosProducto = function (categories) {
       typeFilterContainer.appendChild(radioDiv);
     });
   } else {
-    alert("No se encontraron categorías.");
+    console.error("No se encontraron categorías.");
   }
 }

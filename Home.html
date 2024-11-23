@@ -26,24 +26,39 @@
 
   <body>
     <!-- Header Start -->
-    <div class="row align-items-center bg-light py-3 px-xl-5 d-none d-lg-flex" style="margin-right: 0px">
+    <div
+      class="row align-items-center bg-light py-3 px-xl-5 d-none d-lg-flex"
+      style="margin-right: 0px"
+    >
       <div class="col-lg-4">
         <a href="Home.html" class="text-decoration-none">
           <img src="img\logo.png" alt="logo" />
         </a>
       </div>
       <div class="col-lg-4 col-6 text-left">
-        <form action="">
+        <form
+          id="searchForm"
+          action="https://www.google.com/search"
+          method="get"
+          target="_blank"
+        >
           <div class="input-group">
             <input
               type="text"
               class="form-control"
-              placeholder="Buscar Productos"
+              name="q"
+              placeholder="Buscar en Google..."
+              required
             />
             <div class="input-group-append">
-              <span class="input-group-text bg-transparent text-primary">
+              <button
+                id="clearButton"
+                type="button"
+                class="input-group-text bg-transparent text-primary"
+                style="border: none; cursor: pointer"
+              >
                 <i class="fa fa-search"></i>
-              </span>
+              </button>
             </div>
           </div>
         </form>
@@ -106,9 +121,6 @@
                 <a href="Productos.html" class="nav-item nav-link">Productos</a>
                 <a href="Nosotros.html" class="nav-item nav-link"
                   >Sobre Nosotros</a
-                >
-                <a href="Detalles.html" class="nav-item nav-link"
-                  >Mis Pedidos</a
                 >
               </div>
               <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
@@ -327,13 +339,14 @@
             <div class="col-md-4 mb-5">
               <h6 class="text-secondary text-uppercase mt-4 mb-3">Síguenos</h6>
               <div class="d-flex">
-                <a class="btn btn-primary btn-square mr-2" href="#"
-                  ><i class="fa-brands fa-tiktok"></i
-                ></a>
-                <a class="btn btn-primary btn-square mr-2" href="#"
+                <a
+                  class="btn btn-primary btn-square mr-2"
+                  href="https://www.facebook.com/profile.php?id=100069208843188"
                   ><i class="fa-brands fa-facebook fa-lg"></i
                 ></a>
-                <a class="btn btn-primary btn-square" href="#"
+                <a
+                  class="btn btn-primary btn-square"
+                  href="https://www.instagram.com/mdtecnologiapa?igsh=ZHdrNXoxeXZjaXBh"
                   ><i class="fa-brands fa-instagram fa-xl"></i
                 ></a>
               </div>

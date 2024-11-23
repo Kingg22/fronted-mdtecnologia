@@ -1,5 +1,10 @@
+import { BASE_URL, eventManager } from "./utils.js";
+
 // Javascript para Detalle producto
 document.addEventListener("DOMContentLoaded", () => {
+    const productId = new URLSearchParams(window.location.search).get("id");
+    if (!productId)
+        window.location.href = '/Productos.html';
     // Carrusel de imágenes producto
     const items = document.querySelectorAll(".carousel-item");
     let currentIndex = 0;
@@ -39,4 +44,27 @@ document.addEventListener("DOMContentLoaded", () => {
             input.value = newVal;
         });
     });
+
+    // Función para buscar productos a la API
+    eventManager(async function cargarDetalle() {
+        fetch(`${BASE_URL}/Productos/${productId}`)
+            .then((response) => response.json())
+            .then((data) => {
+                if (data?.producto) {
+                    document.getElementById("product-name").innerHTML = data.producto.nombre;
+                    document.getElementById('producto-name-breadcrumb').textContent = data.producto.nombre;
+                    document.getElementById("product-brand").innerHTML = data.producto.marca;
+                    document.getElementById("product-description").innerHTML = data.producto.descripcion;
+
+                    let imgs_html = "";
+                    data.producto.imagenes.forEach(element => {
+                        imgs_html += `<div class="carousel-item active"><img class="d-block w-100" src="${element.url}" alt="First slide"></div>`;
+                    });
+                    document.getElementById("carousel-inner").innerHTML = imgs_html;
+                }
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+    })();
 });

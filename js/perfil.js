@@ -3,16 +3,18 @@ import { BASE_URL } from "./utils.js";
 const ordersTableBody = document.getElementById("orders_table_body");
 
 document.addEventListener("DOMContentLoaded", async function () {
-  const id_cliente = "55311cd6-13cc-42f3-8ec0-df83f2fb9ea6";
-  const token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJjMjY2NjE0MC1jYmVhLTQ5ZjUtYTU2MS05NzI5NmE1ODQwM2EiLCJyb2xlIjoiY2xpZW50ZSIsIm5iZiI6MTczMjMxOTY3NiwiZXhwIjoxNzMyMzIzMjc2LCJpYXQiOjE3MzIzMTk2NzYsImlzcyI6Ik1EVEVDSCJ9.mghDHfvocv6JmxNCU6mF_kXAcSCGErQhPikXSHuSuFPrjpssR4sVtEtNBuHzDMFSySiHNlOZBvt5bXrQh8-JmfKp_6W-BgaOC4B75Z4Mn45OqSo5ZC4HkMhWzVdXQWVCEXVqJXelBN2xXpxV5qR0nTroMYkX6ephUTTaC9cFeFnWdyTt9PjiDtyrk8p-AeKoSxV-9L2abu5E3sQKsNl5SsKlCCAR4WGHO-imPKweWegJFjKI5V-upAmdMxVXqjFjY4H23m7rQa-YDIKEh4izkUuI8It-sBYxyH4BMYrE80HnooDZw1vil_bYaBC5btzsU3fcGs_LSbTGHZdrynlP2g";
+  const id_cliente = window.sessionStorage.getItem('id_cliente');
+  const token = window.sessionStorage.getItem('token');
+  if (!token)
+    window.location.href = "/Login.html";
   fetch(`${BASE_URL}/Clientes/${id_cliente}`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${token}`,
+      "accept": "application/json",
     },
   }).then((response) => response.json())
     .then((data) => {
-      console.log(data)
       const cliente = data.cliente;
 
       const fullName =
@@ -47,14 +49,14 @@ document.addEventListener("DOMContentLoaded", async function () {
   fetch(`${BASE_URL}/Ventas/cliente/${id_cliente}`, {
     method: "GET",
     headers: {
-      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
+      "accept": "application/json",
     },
   }).then(response => response.json)
     .then(ventas => {
       ordersTableBody.innerHTML = "";
 
-      if (ventas.length > 0) {
+      if (ventas?.length > 0) {
         ventas.forEach((venta) => {
           const row = document.createElement("tr");
 

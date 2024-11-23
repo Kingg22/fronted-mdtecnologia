@@ -27,12 +27,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     'page': 0,
     'orderBy': 'nombre'
   });
-  fetch(`${BASE_URL}/Productos?${opciones}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
+  fetch(`${BASE_URL}/Productos?${opciones}`)
     .then((response) => response.json())
     .then((data) => {
       data.productos?.forEach((producto) => {
@@ -59,7 +54,6 @@ document.addEventListener('DOMContentLoaded', async function () {
       })
     })
     .catch((error) => {
-      console.error("Error:", error);
-      alert("Hubo un problema al cargar los productos. Intente nuevamente.");
+      console.error("Error al cargar preview productos:", error);
     });
 });
