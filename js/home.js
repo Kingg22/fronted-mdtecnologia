@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         productoDiv.innerHTML = `
                   <div class="product-item bg-light mb-4">
                     <div class="product-img position-relative overflow-hidden">
-                      <img class="img-fluid w-100" src="${imgSrc}" alt="${producto.nombre}" style="width: 150px; height: 280px; object-fit: cover;" />
+                      <img class="img-fluid w-100" src="${imgSrc}" alt="${producto.nombre}" style="width: 150px; height: 280px; object-fit: contain; background-color: #f8f9fa;" />
                     </div>
                     <div class="text-center py-4">
                       <a class="h6 text-decoration-none text-truncate" href="#">${producto.nombre}</a>
