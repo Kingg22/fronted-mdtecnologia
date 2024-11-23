@@ -25,12 +25,12 @@
     <link href="css/style.css" rel="stylesheet" />
   </head>
 
-  <body>
+  <body> 
     <!-- Header Start -->
     <div class="row align-items-center bg-light py-3 px-xl-5 d-none d-lg-flex">
       <div class="col-lg-4">
         <a href="Home.html" class="text-decoration-none">
-          <img src="img\logo.png" alt="logo" />
+          <img src="img/logo.png" alt="logo" />
         </a>
       </div>
       <div class="col-lg-4 col-6 text-left">
@@ -88,7 +88,7 @@
             aria-label="Barra de navegación principal"
           >
             <a href="" class="text-decoration-none d-block d-lg-none">
-              <img src="img\logoMDT.png" alt="logo" />
+              <img src="img/logoMDT.png" alt="logo" />
             </a>
             <button
               type="button"
@@ -159,19 +159,8 @@
       <div class="row px-xl-5">
         <div class="col-lg-5 mb-30">
           <div id="carousel" class="carousel">
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                <img src="img/AOACE 1.jpg" alt="Producto 1" class="img-fluid" />
-              </div>
-              <div class="carousel-item">
-                <img src="img/AOACE 2.jpg" alt="Producto 2" class="img-fluid" />
-              </div>
-              <div class="carousel-item">
-                <img src="img/AOACE 3.jpg" alt="Producto 3" class="img-fluid" />
-              </div>
-              <div class="carousel-item">
-                <img src="img/AOACE 4.jpg" alt="Producto 4" class="img-fluid" />
-              </div>
+            <div class="carousel-inner" id="carousel-inner">
+              
             </div>
             <button class="carousel-control-prev" id="prev">
               <i class="fa fa-2x fa-angle-left text-dark"></i>
@@ -184,22 +173,9 @@
 
         <div class="col-lg-7 h-auto mb-30">
           <div class="h-100 bg-light p-30">
-            <h3>
-              AOACE PC de Escritorio para Gaming (Diseño de Juegos, Oficina,
-              Consola)
-            </h3>
-            <h3 class="font-weight-semi-bold mb-4">$779.99</h3>
-            <p class="mb-4">
-              - Sistema Operativo: Windows 11 Home<br />
-              - CPU: Intel Core i5 de 12.ª Generación 12400F (Rendimiento
-              similar al i9-11900F de 11.ª Generación)<br />
-              - GPU: NVIDIA GeForce RTX4060 8G DLSS 3 (la marca puede variar)<br />
-              - RAM: 32GB (16G*2) DDR4 3200MHz<br />
-              - SSD: 1TB M.2 NVMe PCIe 4.0<br />
-              - Sistema de refrigeración: 6 ventiladores RGB<br />
-              - Fuente de poder: 550W (80 Plus Bronze)<br />
-              - Conectividad inalámbrica: WiFi 6E y Bluetooth 5.3<br />
-            </p>
+            <h3 id="product-name">{{NAME}}</h3>
+            <h3 id="product-brand" class="font-weight-semi-bold mb-4">{{SUBTITLE}}</h3>
+            <p id="product-description" class="mb-4">{{DESCRIPTION}}</p>
 
             <div class="d-flex align-items-center mb-4 pt-2">
               <div class="input-group quantity mr-3" style="width: 130px">
@@ -222,32 +198,6 @@
               <button class="btn btn-primary px-3">
                 <i class="fa fa-shopping-cart mr-1"></i>Añadir al Carrito
               </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row px-xl-5">
-        <div class="col">
-          <div class="bg-light p-30">
-            <div class="tab-content">
-              <div class="tab-pane fade show active" id="tab-pane-1">
-                <h4 class="mb-3">Descripción del Producto</h4>
-                <p>
-                  La AOACE PC de Escritorio para Gaming combina un potente
-                  procesador Intel Core i5 de 12.ª generación, una tarjeta
-                  gráfica RTX 4060 de última generación, 32 GB de memoria DDR4 a
-                  3200 MHz y un SSD ultra rápido de 1TB, ofreciendo un
-                  rendimiento fluido y veloz ideal para juegos, diseño y
-                  multitarea intensiva.
-                </p>
-                <p>
-                  Sus 6 ventiladores RGB no solo mantienen la temperatura de los
-                  componentes bajo control, sino que también permiten ajustar la
-                  iluminación y la velocidad, proporcionando tanto una estética
-                  atractiva como un rendimiento térmico óptimo durante sesiones
-                  prolongadas de uso intensivo.
-                </p>
-              </div>
             </div>
           </div>
         </div>
@@ -319,6 +269,8 @@
 
     <!-- JavaScript Libraries -->
     <script type="module" src="js/main.js"></script>
+    <script type="module" src="js/detalles.js"></script>
+    <script type="module" src="js/detalleProducto.js"></script>
     <script src="js/carousel.js"></script>
   </body>
 </html>
