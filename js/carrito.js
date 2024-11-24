@@ -158,7 +158,7 @@ const finalizarVenta = eventManager(async () => {
   }).then(response => response.json())
     .then(data => {
       console.log(data)
-      if (response.ok) {
+      if (data) {
         alert('Gracias por su compra, su compra esta en proceso')
       } else {
         alert('No se ha podido guardar su compra, intente nuevamente')
