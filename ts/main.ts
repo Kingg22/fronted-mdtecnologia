@@ -1,175 +1,248 @@
 import { BASE_URL, eventManager } from "./utils.js";
-export const cart = JSON.parse(localStorage.getItem("cart") ?? "[]");
+
+/**
+ * Representa a producto-detalle y 'cantidad' adicional para el carrito
+ */
+export interface CartItem {
+  id: string;
+  nombre: string;
+  marca: string;
+  descripcion: string;
+  categoria: string;
+  proveedores: {
+    producto: string;
+    proveedor: string;
+    precio: number;
+    impuesto: number;
+    total: number;
+    stock: number;
+    fecha_actualizado: string;
+  }[];
+  imagenes: {
+    descripcion?: string | null;
+    url: string;
+  }[];
+  cantidad?: number;
+}
+export const cart: CartItem[] = JSON.parse(
+  localStorage.getItem("cart") ?? "[]",
+);
+
 /**
  * Carga por defecto el header, navbar, footer, eventos de navbar, evento buscador google, cargar categorías navbar y render de carrito
  */
 document.addEventListener("DOMContentLoaded", async function () {
-    loadHeader();
-    loadNavbar();
-    loadFooter();
-    //  Menú Desplegable
-    const dropdownButton = document.querySelector('.btn[data-toggle="collapse"]');
-    const dropdownMenu = document.querySelector("#navbar-vertical");
-    if (dropdownButton && dropdownMenu) {
-        dropdownButton.addEventListener("click", function (event) {
-            event.preventDefault();
-            dropdownMenu.classList.toggle("show");
-        });
-        document.addEventListener("click", function (event) {
-            if (!dropdownButton.contains(event.target) &&
-                !dropdownMenu.contains(event.target)) {
-                dropdownMenu.classList.remove("show");
-            }
-        });
-    }
-    // Evento de mostrar / ocultar contraseña
-    document
-        .querySelectorAll(".toggle-password")
-        .forEach((img) => {
-        img.addEventListener("click", () => {
-            const target = document.getElementById(img.dataset.target);
-            if (target.type === "password") {
-                target.type = "text";
-            }
-            else {
-                target.type = "password";
-            }
-        });
+  loadHeader();
+  loadNavbar();
+  loadFooter();
+
+  //  Menú Desplegable
+  const dropdownButton = document.querySelector(
+    '.btn[data-toggle="collapse"]',
+  ) as HTMLElement;
+  const dropdownMenu = document.querySelector(
+    "#navbar-vertical",
+  ) as HTMLElement;
+
+  if (dropdownButton && dropdownMenu) {
+    dropdownButton.addEventListener("click", function (event: Event) {
+      event.preventDefault();
+      dropdownMenu.classList.toggle("show");
     });
-    document.getElementById("clearButton")?.addEventListener("click", () => {
-        const form = document.getElementById("searchForm");
-        if (form) {
-            form.submit();
-            form.reset();
+
+    document.addEventListener("click", function (event: Event) {
+      if (
+        !dropdownButton.contains(event.target as Node) &&
+        !dropdownMenu.contains(event.target as Node)
+      ) {
+        dropdownMenu.classList.remove("show");
+      }
+    });
+  }
+
+  // Evento de mostrar / ocultar contraseña
+  document
+    .querySelectorAll<HTMLImageElement>(".toggle-password")
+    .forEach((img) => {
+      img.addEventListener("click", () => {
+        const target = document.getElementById(
+          img.dataset.target as string,
+        ) as HTMLInputElement;
+        if (target.type === "password") {
+          target.type = "text";
+        } else {
+          target.type = "password";
         }
+      });
     });
-    await cargarCategorias();
-    cartTotal(cart);
+
+  document.getElementById("clearButton")?.addEventListener("click", () => {
+    const form = document.getElementById("searchForm") as HTMLFormElement;
+    if (form) {
+      form.submit();
+      form.reset();
+    }
+  });
+
+  await cargarCategorias();
+  cartTotal(cart);
 });
+
 const cargarCategorias = eventManager(async () => {
-    fetch(`${BASE_URL}/Categorias`)
-        .then((response) => response.json())
-        .then((categories) => {
-        renderCategoriasNavBar(categories);
-        renderFiltrosProducto(categories);
-        renderCategoriasHome(categories);
+  fetch(`${BASE_URL}/Categorias`)
+    .then((response) => response.json())
+    .then((categories) => {
+      renderCategoriasNavBar(categories);
+      renderFiltrosProducto(categories);
+      renderCategoriasHome(categories);
     })
-        .catch((error) => console.error("Error al cargar las categorías:", error));
+    .catch((error) => console.error("Error al cargar las categorías:", error));
 });
-const renderCategoriasNavBar = function (categories) {
-    const categoriesContainer = document.getElementById("navbar-categorias");
-    if (categories.categorias?.length > 0) {
-        categoriesContainer.innerHTML = "";
-        categories.categorias.forEach((category) => {
-            const categoryLink = document.createElement("a");
-            categoryLink.href = `Productos.html?category=${category.id}`;
-            categoryLink.className = "nav-item nav-link";
-            categoryLink.textContent = category.nombre;
-            categoriesContainer.appendChild(categoryLink);
-        });
-    }
-    else {
-        console.error("No se encontraron categorías.");
-    }
+
+const renderCategoriasNavBar = function (categories: {
+  categorias: { id: string; nombre: string }[];
+}) {
+  const categoriesContainer = document.getElementById(
+    "navbar-categorias",
+  ) as HTMLElement;
+  if (categories.categorias?.length > 0) {
+    categoriesContainer.innerHTML = "";
+    categories.categorias.forEach((category) => {
+      const categoryLink = document.createElement("a");
+      categoryLink.href = `Productos.html?category=${category.id}`;
+      categoryLink.className = "nav-item nav-link";
+      categoryLink.textContent = category.nombre;
+      categoriesContainer.appendChild(categoryLink);
+    });
+  } else {
+    console.error("No se encontraron categorías.");
+  }
 };
-const renderCategoriasHome = function (categories) {
-    const categoriesHomeContainer = document.getElementById("categorias-bonitas-container");
-    if (categoriesHomeContainer && categories.categorias?.length > 0) {
-        categoriesHomeContainer.innerHTML = "";
-        categories.categorias.forEach((category) => {
-            const categoryDiv = document.createElement("div");
-            categoryDiv.className = "col-lg-3 col-md-4 col-sm-6 pb-1";
-            const categoryLink = document.createElement("a");
-            categoryLink.className = "text-decoration-none";
-            categoryLink.href = `Productos.html?category=${category.id}`;
-            // contenedor para la imagen
-            const catItemDiv = document.createElement("div");
-            catItemDiv.className = "cat-item img-zoom d-flex align-items-center mb-4";
-            const imgDiv = document.createElement("div");
-            imgDiv.className = "overflow-hidden";
-            imgDiv.style.width = "150px";
-            imgDiv.style.height = "100px";
-            const img = document.createElement("img");
-            img.className = "img-fluid";
-            img.src = category.imagen_url ?? "img/Imagen't.jpg";
-            img.alt = category.nombre;
-            imgDiv.appendChild(img);
-            // contenedor del texto
-            const nameDiv = document.createElement("div");
-            nameDiv.className = "flex-fill pl-3";
-            const name = document.createElement("h6");
-            name.textContent = category.nombre;
-            nameDiv.appendChild(name);
-            // Se construye el resultado final
-            catItemDiv.appendChild(imgDiv);
-            catItemDiv.appendChild(nameDiv);
-            categoryLink.appendChild(catItemDiv);
-            categoryDiv.appendChild(categoryLink);
-            categoriesHomeContainer.appendChild(categoryDiv);
-        });
-    }
+
+const renderCategoriasHome = function (categories: {
+  categorias: { id: string; nombre: string; imagen_url?: string }[];
+}) {
+  const categoriesHomeContainer = document.getElementById(
+    "categorias-bonitas-container",
+  );
+  if (categoriesHomeContainer && categories.categorias?.length > 0) {
+    categoriesHomeContainer.innerHTML = "";
+
+    categories.categorias.forEach((category) => {
+      const categoryDiv = document.createElement("div");
+      categoryDiv.className = "col-lg-3 col-md-4 col-sm-6 pb-1";
+
+      const categoryLink = document.createElement("a");
+      categoryLink.className = "text-decoration-none";
+      categoryLink.href = `Productos.html?category=${category.id}`;
+
+      // contenedor para la imagen
+      const catItemDiv = document.createElement("div");
+      catItemDiv.className = "cat-item img-zoom d-flex align-items-center mb-4";
+
+      const imgDiv = document.createElement("div");
+      imgDiv.className = "overflow-hidden";
+      imgDiv.style.width = "150px";
+      imgDiv.style.height = "100px";
+
+      const img = document.createElement("img");
+      img.className = "img-fluid";
+      img.src = category.imagen_url ?? "img/Imagen't.jpg";
+      img.alt = category.nombre;
+
+      imgDiv.appendChild(img);
+
+      // contenedor del texto
+      const nameDiv = document.createElement("div");
+      nameDiv.className = "flex-fill pl-3";
+
+      const name = document.createElement("h6");
+      name.textContent = category.nombre;
+
+      nameDiv.appendChild(name);
+      // Se construye el resultado final
+      catItemDiv.appendChild(imgDiv);
+      catItemDiv.appendChild(nameDiv);
+      categoryLink.appendChild(catItemDiv);
+      categoryDiv.appendChild(categoryLink);
+      categoriesHomeContainer.appendChild(categoryDiv);
+    });
+  }
 };
-const renderFiltrosProducto = function (categories) {
-    const typeFilterContainer = document.getElementById("type-filter-container");
-    if (typeFilterContainer && categories.categorias?.length > 0) {
-        // Necesario para darle checked = true a la categoría si viene de otra pestaña
-        const urlParams = new URLSearchParams(window.location.search);
-        const categoryFilter = urlParams.get("category");
-        const radioDivAll = document.createElement("div");
-        radioDivAll.className = "custom-control custom-radio";
-        const radioInputAll = document.createElement("input");
-        radioInputAll.type = "radio";
-        radioInputAll.className = "custom-control-input";
-        radioInputAll.name = "type-filter";
-        radioInputAll.value = "";
-        radioInputAll.id = "type-all";
-        radioInputAll.checked = !categoryFilter;
-        const radioLabelAll = document.createElement("label");
-        radioLabelAll.className = "custom-control-label";
-        radioLabelAll.setAttribute("for", "type-all");
-        radioLabelAll.textContent = "Todos";
-        radioDivAll.appendChild(radioInputAll);
-        radioDivAll.appendChild(radioLabelAll);
-        typeFilterContainer.appendChild(radioDivAll);
-        categories.categorias.forEach((category) => {
-            // Crear y agregar filtros por tipo
-            const radioDiv = document.createElement("div");
-            radioDiv.className = "custom-control custom-radio";
-            const radioInput = document.createElement("input");
-            radioInput.type = "radio";
-            radioInput.className = "custom-control-input";
-            radioInput.name = "type-filter";
-            radioInput.value = category.id;
-            radioInput.id = `type-${category.nombre.toLowerCase()}`;
-            radioInput.setAttribute("data-category-id", category.id);
-            radioInput.checked = category.id === categoryFilter;
-            const radioLabel = document.createElement("label");
-            radioLabel.className = "custom-control-label";
-            radioLabel.setAttribute("for", `type-${category.nombre.toLowerCase()}`);
-            radioLabel.textContent = category.nombre;
-            radioDiv.appendChild(radioInput);
-            radioDiv.appendChild(radioLabel);
-            typeFilterContainer.appendChild(radioDiv);
-        });
-    }
+
+const renderFiltrosProducto = function (categories: {
+  categorias: { id: string; nombre: string }[];
+}) {
+  const typeFilterContainer = document.getElementById("type-filter-container");
+  if (typeFilterContainer && categories.categorias?.length > 0) {
+    // Necesario para darle checked = true a la categoría si viene de otra pestaña
+    const urlParams = new URLSearchParams(window.location.search);
+    const categoryFilter = urlParams.get("category");
+
+    const radioDivAll = document.createElement("div");
+    radioDivAll.className = "custom-control custom-radio";
+
+    const radioInputAll = document.createElement("input");
+    radioInputAll.type = "radio";
+    radioInputAll.className = "custom-control-input";
+    radioInputAll.name = "type-filter";
+    radioInputAll.value = "";
+    radioInputAll.id = "type-all";
+    radioInputAll.checked = !categoryFilter;
+
+    const radioLabelAll = document.createElement("label");
+    radioLabelAll.className = "custom-control-label";
+    radioLabelAll.setAttribute("for", "type-all");
+    radioLabelAll.textContent = "Todos";
+
+    radioDivAll.appendChild(radioInputAll);
+    radioDivAll.appendChild(radioLabelAll);
+    typeFilterContainer.appendChild(radioDivAll);
+
+    categories.categorias.forEach((category) => {
+      // Crear y agregar filtros por tipo
+      const radioDiv = document.createElement("div");
+      radioDiv.className = "custom-control custom-radio";
+
+      const radioInput = document.createElement("input");
+      radioInput.type = "radio";
+      radioInput.className = "custom-control-input";
+      radioInput.name = "type-filter";
+      radioInput.value = category.id;
+      radioInput.id = `type-${category.nombre.toLowerCase()}`;
+      radioInput.setAttribute("data-category-id", category.id);
+      radioInput.checked = category.id === categoryFilter;
+
+      const radioLabel = document.createElement("label");
+      radioLabel.className = "custom-control-label";
+      radioLabel.setAttribute("for", `type-${category.nombre.toLowerCase()}`);
+      radioLabel.textContent = category.nombre;
+
+      radioDiv.appendChild(radioInput);
+      radioDiv.appendChild(radioLabel);
+      typeFilterContainer.appendChild(radioDiv);
+    });
+  }
 };
+
 /**
  * Muestra la cantidad de productos en el carrito del navbar
  * @param cart Carrito del usuario
  */
-export const cartTotal = function (cart) {
-    let total = 0;
-    console.log("Carrito: ", cart);
-    cart.forEach((element) => {
-        total = total + (element.cantidad ?? 1);
-    });
-    document.getElementById("cart-total").innerHTML = total.toString();
+export const cartTotal = function (cart: CartItem[]) {
+  let total = 0;
+  console.log("Carrito: ", cart);
+  cart.forEach((element) => {
+    total = total + (element.cantidad ?? 1);
+  });
+  document.getElementById("cart-total")!.innerHTML = total.toString();
 };
+
 /**
  * Cargar header dinámicamente
  */
 export const loadHeader = () => {
-    document.querySelector("header").innerHTML = `
+  document.querySelector("header")!.innerHTML = `
       <div class="row align-items-center bg-light py-3 px-xl-5 d-none d-lg-flex" style="margin-right: 0px">
         <div class="col-lg-4">
           <a href="Home.html" class="text-decoration-none">
@@ -195,11 +268,12 @@ export const loadHeader = () => {
       </div>
     `;
 };
+
 /**
  * Cargar navbar dinámicamente
  */
 export const loadNavbar = () => {
-    document.querySelector("header").innerHTML += `
+  document.querySelector("header")!.innerHTML += `
       <div class="container-fluid bg-dark mb-30">
         <div class="row px-xl-5">
           <div class="col-lg-3 d-none d-lg-block">
@@ -243,11 +317,14 @@ export const loadNavbar = () => {
       </div>
     `;
 };
+
 /**
  * Cargar breadcrumb dinámicamente
  */
-export const loadBreadcrumb = (paths) => {
-    document.getElementById("breadcrumb").innerHTML = `<div class="row px-xl-5">
+export const loadBreadcrumb = (
+  paths: { name: string; href: string | null }[],
+) => {
+  document.getElementById("breadcrumb")!.innerHTML = `<div class="row px-xl-5">
         <div class="col-12">
           <nav
             class="breadcrumb bg-light mb-30"
@@ -257,17 +334,20 @@ export const loadBreadcrumb = (paths) => {
           </nav>
         </div>
       </div>`;
-    document.querySelector(".breadcrumb").innerHTML = paths
-        .map((path) => path.href
+  document.querySelector(".breadcrumb")!.innerHTML = paths
+    .map((path) =>
+      path.href
         ? `<a class="breadcrumb-item text-dark" href="${path.href}">${path.name}</a>`
-        : `<span class="breadcrumb-item active">${path.name}</span>`)
-        .join("");
+        : `<span class="breadcrumb-item active">${path.name}</span>`,
+    )
+    .join("");
 };
+
 /**
  *  Cargar footer dinámicamente
  */
 export const loadFooter = () => {
-    document.querySelector("footer").innerHTML = `
+  document.querySelector("footer")!.innerHTML = `
             <div class="container-fluid bg-dark text-secondary mt-5 pt-5">
               <div class="row px-xl-5 pt-5">
                 <div class="col-lg-4 col-md-12 mb-5 pr-3 pr-xl-5">
