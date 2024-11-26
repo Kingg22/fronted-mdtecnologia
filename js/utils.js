@@ -4,7 +4,6 @@ export function eventManager(fun) {
     return async (...args) => {
         if (!executing) {
             executing = true;
-            console.log("Ejecutando una función");
             try {
                 await fun(...args);
             }

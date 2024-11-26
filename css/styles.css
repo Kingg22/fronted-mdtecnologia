@@ -1,0 +1,43 @@
+body {
+  color: #6c757d;
+  text-align: left;
+  font-family: "Roboto", sans-serif;
+  background-color: #f5f5f5;
+}
+
+.cat-item {
+  background: #ffffff;
+  transition: 0.5s;
+}
+
+.cat-item:hover {
+  background: #007bb9;
+}
+
+.cat-item img {
+  transition: 0.5s;
+}
+
+.cat-item:hover img {
+  transform: scale(1.2) rotate(5deg);
+}
+
+.product-item {
+  transition: 0.5s;
+}
+
+.product-item:hover {
+  box-shadow: 0 0 30px #dddddd;
+}
+
+.product-item .product-img img {
+  transition: 0.5s;
+}
+
+.product-item:hover .product-img img {
+  transform: scale(1.2);
+}
+
+.product-item .btn:hover {
+  color: #007bb9 !important;
+}

@@ -80,7 +80,7 @@ function renderProducts(products: CartItem[]) {
 
 function renderPagination() {
   paginationContainer.innerHTML = "";
-
+  if (totalPages === 0) return;
   const previous = document.createElement("li");
   previous.className = `page-item ${page === 0 ? "disabled" : ""}`;
   previous.innerHTML = `<a class="page-link" href="#">Anterior</a>`;
@@ -110,21 +110,24 @@ document
   });
 
 // Event para cambio de pagina
-paginationContainer.addEventListener("click", async (e) => {
-  e.preventDefault();
-  const target = e.target as HTMLElement;
-  if (
-    target.tagName === "A" &&
-    !target.parentElement?.classList.contains("disabled")
-  ) {
-    const action = target.textContent?.trim();
-    if (action === "Anterior" && page > 0) {
-      page -= 1;
-    } else if (action === "Siguiente") {
-      page += 1;
-    } else if (action && !isNaN(parseInt(action, 10))) {
-      page = parseInt(action, 10) - 1;
+paginationContainer.addEventListener(
+  "click",
+  eventManager(async (e) => {
+    e.preventDefault();
+    const target = e.target as HTMLElement;
+    if (
+      target.tagName === "A" &&
+      !target.parentElement?.classList.contains("disabled")
+    ) {
+      const action = target.textContent?.trim();
+      if (action === "Anterior" && page > 0) {
+        page -= 1;
+      } else if (action === "Siguiente") {
+        page += 1;
+      } else if (action && !isNaN(parseInt(action, 10))) {
+        page = parseInt(action, 10) - 1;
+      }
+      await searchProducts();
     }
-    await searchProducts();
-  }
-});
+  }),
+);

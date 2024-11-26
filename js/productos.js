@@ -71,6 +71,8 @@ function renderProducts(products) {
 }
 function renderPagination() {
     paginationContainer.innerHTML = "";
+    if (totalPages === 0)
+        return;
     const previous = document.createElement("li");
     previous.className = `page-item ${page === 0 ? "disabled" : ""}`;
     previous.innerHTML = `<a class="page-link" href="#">Anterior</a>`;
@@ -95,7 +97,7 @@ document
     await searchProducts();
 });
 // Event para cambio de pagina
-paginationContainer.addEventListener("click", async (e) => {
+paginationContainer.addEventListener("click", eventManager(async (e) => {
     e.preventDefault();
     const target = e.target;
     if (target.tagName === "A" &&
@@ -112,4 +114,4 @@ paginationContainer.addEventListener("click", async (e) => {
         }
         await searchProducts();
     }
-});
+}));

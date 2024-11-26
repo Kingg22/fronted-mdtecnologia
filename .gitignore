@@ -1,3 +1,5 @@
 # Archivos de configuración del editor
 .vscode/
 .idea/
+
+node_modules

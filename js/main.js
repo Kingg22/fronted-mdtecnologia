@@ -5,23 +5,7 @@ export const cart = JSON.parse(localStorage.getItem("cart") ?? "[]");
  */
 document.addEventListener("DOMContentLoaded", async function () {
     loadHeader();
-    loadNavbar();
     loadFooter();
-    //  Menú Desplegable
-    const dropdownButton = document.querySelector('.btn[data-toggle="collapse"]');
-    const dropdownMenu = document.querySelector("#navbar-vertical");
-    if (dropdownButton && dropdownMenu) {
-        dropdownButton.addEventListener("click", function (event) {
-            event.preventDefault();
-            dropdownMenu.classList.toggle("show");
-        });
-        document.addEventListener("click", function (event) {
-            if (!dropdownButton.contains(event.target) &&
-                !dropdownMenu.contains(event.target)) {
-                dropdownMenu.classList.remove("show");
-            }
-        });
-    }
     // Evento de mostrar / ocultar contraseña
     document
         .querySelectorAll(".toggle-password")
@@ -35,13 +19,6 @@ document.addEventListener("DOMContentLoaded", async function () {
                 target.type = "password";
             }
         });
-    });
-    document.getElementById("clearButton")?.addEventListener("click", () => {
-        const form = document.getElementById("searchForm");
-        if (form) {
-            form.submit();
-            form.reset();
-        }
     });
     await cargarCategorias();
     cartTotal(cart);
@@ -61,11 +38,13 @@ const renderCategoriasNavBar = function (categories) {
     if (categories.categorias?.length > 0) {
         categoriesContainer.innerHTML = "";
         categories.categorias.forEach((category) => {
+            const categoryList = document.createElement("li");
             const categoryLink = document.createElement("a");
             categoryLink.href = `Productos.html?category=${category.id}`;
-            categoryLink.className = "nav-item nav-link";
+            categoryLink.className = "dropdown-item";
             categoryLink.textContent = category.nombre;
-            categoriesContainer.appendChild(categoryLink);
+            categoryList.appendChild(categoryLink);
+            categoriesContainer.appendChild(categoryList);
         });
     }
     else {
@@ -159,9 +138,8 @@ const renderFiltrosProducto = function (categories) {
  */
 export const cartTotal = function (cart) {
     let total = 0;
-    console.log("Carrito: ", cart);
     cart.forEach((element) => {
-        total = total + (element.cantidad ?? 1);
+        total += element.cantidad ?? 1;
     });
     document.getElementById("cart-total").innerHTML = total.toString();
 };
@@ -170,163 +148,189 @@ export const cartTotal = function (cart) {
  */
 export const loadHeader = () => {
     document.querySelector("header").innerHTML = `
-      <div class="row align-items-center bg-light py-3 px-xl-5 d-none d-lg-flex" style="margin-right: 0px">
-        <div class="col-lg-4">
-          <a href="Home.html" class="text-decoration-none">
-            <img src="img/logo.png" alt="logo" />
+      <!-- Top Bar -->
+      <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+        <div class="container">
+          <!-- Logo -->
+          <a class="navbar-brand bg-light" href="/Home.html">
+            <img src="/img/logo.png" alt="Logo" style="height: 50px" />
           </a>
-        </div>
-        <div class="col-lg-4 col-6 text-left">
-          <form id="searchForm" action="https://www.google.com/search" method="get" target="_blank">
-            <div class="input-group">
-              <input type="text" class="form-control" name="q" placeholder="Buscar en Google..." required />
-              <div class="input-group-append">
-                <button id="clearButton" type="button" class="input-group-text bg-transparent text-primary" style="border: none; cursor: pointer">
-                  <i class="fa fa-search"></i>
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
-        <div class="col-lg-4 col-6 text-right">
-          <p class="m-0">Nuestro Instagram</p>
-          <a><h5 class="m-0">@mdtecnologiapa</h5></a>
-        </div>
-      </div>
-    `;
-};
-/**
- * Cargar navbar dinámicamente
- */
-export const loadNavbar = () => {
-    document.querySelector("header").innerHTML += `
-      <div class="container-fluid bg-dark mb-30">
-        <div class="row px-xl-5">
-          <div class="col-lg-3 d-none d-lg-block">
-            <a class="btn d-flex align-items-center justify-content-between bg-primary w-100" data-toggle="collapse" href="#navbar-vertical" style="height: 65px; padding: 0 30px">
-              <h6 class="text-dark m-0"><i class="fa fa-bars mr-2"></i>Categorías</h6>
-              <i class="fa fa-angle-down text-dark"></i>
-            </a>
-            <nav class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 bg-light" id="navbar-vertical" style="width: calc(100% - 30px); z-index: 999" aria-label="Navegación de categorías">
-              <div class="navbar-nav w-100" id="navbar-categorias">
-                <!-- Categorías generadas de forma dinámica -->
-              </div>
-            </nav>
-          </div>
-          <div class="col-lg-9">
-            <nav class="navbar navbar-expand-lg bg-dark navbar-dark py-3 py-lg-0 px-0" aria-label="Barra de navegación principal">
-              <a href="Home.html" class="text-decoration-none d-block d-lg-none">
-                <img src="img/logoMDT.png" alt="logo" />
-              </a>
-              <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-                <span class="navbar-toggler-icon"></span>
+          <!-- Navbar toggler -->
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <!-- Navbar links -->
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <!-- Navbar -->
+            <ul
+              class="navbar-nav navbar-nav-scroll me-auto my-2 my-lg-0"
+              style="--bs-scroll-height: 200px"
+            >
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle text-white"
+                  href="#"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Categorías
+                </a>
+                <ul id="navbar-categorias" class="dropdown-menu">
+                  <!-- Generado de forma dinámica -->
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-white" href="/Home.html">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-white" href="/Productos.html"
+                  >Productos</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-white" href="/Nosotros.html"
+                  >Sobre Nosotros</a
+                >
+              </li>
+            </ul>
+            <!-- Search bar -->
+            <form class="d-flex" 
+            role="search"
+            action="https://www.google.com/search"
+            method="get"
+            target="_self">
+              <input
+                class="form-control me-2"
+                type="search"
+                name="q"
+                placeholder="Buscar en Google..."
+                aria-label="Search"
+                required
+              />
+              <button class="btn btn-light" type="submit">
+                <i class="fa fa-search"></i>
               </button>
-              <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
-                <div class="navbar-nav mr-auto py-0">
-                  <a href="Home.html" class="nav-item nav-link">Home</a>
-                  <a href="Productos.html" class="nav-item nav-link">Productos</a>
-                  <a href="Nosotros.html" class="nav-item nav-link">Sobre Nosotros</a>
-                </div>
-                <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
-                  <a href="Perfil.html" class="btn px-0">
-                    <i class="fa-solid fa-circle-user text-primary" style="font-size: 1.3rem"></i>
-                  </a>
-                  <a href="Carrito.html" class="btn px-0 ml-3">
-                    <i class="fas fa-shopping-cart text-primary"></i>
-                    <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px" id="cart-total">0</span>
-                  </a>
-                </div>
-              </div>
-            </nav>
+            </form>
+            <a href="/Perfil.html" class="btn px-4">
+              <i
+                class="fa-solid fa-circle-user"
+                style="font-size: 1.15rem"
+              ></i>
+            </a>
+            <a href="/Carrito.html" class="btn px-1">
+              <i class="fas fa-shopping-cart"></i>
+              <span
+                class="badge bg-secondary rounded-circle"
+                id="cart-total"
+              >
+                0
+              </span>
+            </a>
           </div>
         </div>
-      </div>
+      </nav>
     `;
 };
 /**
  * Cargar breadcrumb dinámicamente
  */
 export const loadBreadcrumb = (paths) => {
-    document.getElementById("breadcrumb").innerHTML = `<div class="row px-xl-5">
-        <div class="col-12">
+    document.getElementById("breadcrumb").innerHTML = `
           <nav
-            class="breadcrumb bg-light mb-30"
-            aria-label="Ruta de navegación producto"
+            aria-label="Ruta de navegación"
           >
+          <ol class="breadcrumb"></ol>
             <!-- Breadcrumb dinámico -->
-          </nav>
-        </div>
-      </div>`;
+          </nav>`;
     document.querySelector(".breadcrumb").innerHTML = paths
         .map((path) => path.href
-        ? `<a class="breadcrumb-item text-dark" href="${path.href}">${path.name}</a>`
-        : `<span class="breadcrumb-item active">${path.name}</span>`)
+        ? `<li class="breadcrumb-item"><a href="${path.href}">${path.name}</a></li>`
+        : `<li class="breadcrumb-item active" aria-current="page">${path.name}</li>`)
         .join("");
 };
 /**
  *  Cargar footer dinámicamente
  */
 export const loadFooter = () => {
-    document.querySelector("footer").innerHTML = `
-            <div class="container-fluid bg-dark text-secondary mt-5 pt-5">
-              <div class="row px-xl-5 pt-5">
-                <div class="col-lg-4 col-md-12 mb-5 pr-3 pr-xl-5">
-                  <h5 class="text-secondary text-uppercase mb-4">Contáctenos</h5>
-                  <p class="mb-2">
-                    <i class="fa fa-envelope text-primary mr-3"></i>
-                    mdtpanama@gmail.com
-                  </p>
-                  <p class="mb-0">
-                    <i class="fa fa-phone-alt text-primary mr-3"></i>
-                    +507 6030-9572
-                  </p>
-                </div>
-                <div class="col-lg-8 col-md-12">
-                  <div class="row">
-                    <div class="col-md-4 mb-5">
-                      <h5 class="text-secondary text-uppercase mb-4">MD Tech</h5>
-                      <div class="d-flex flex-column justify-content-start">
-                        <a class="text-secondary mb-2" href="Home.html">
-                          <i class="fa fa-angle-right mr-2"></i>Inicio
-                        </a>
-                        <a class="text-secondary mb-2" href="Productos.html">
-                          <i class="fa fa-angle-right mr-2"></i>Productos
-                        </a>
-                        <a class="text-secondary" href="Nosotros.html">
-                          <i class="fa fa-angle-right mr-2"></i>Sobre Nosotros
-                        </a>
-                      </div>
-                    </div>
-                    <div class="col-md-4 mb-5">
-                      <h5 class="text-secondary text-uppercase mb-4">Mi cuenta</h5>
-                      <div class="d-flex flex-column justify-content-start">
-                        <a class="text-secondary mb-2" href="Login.html">
-                          <i class="fa fa-angle-right mr-2"></i>Iniciar Sesión
-                        </a>
-                        <a class="text-secondary mb-2" href="Carrito.html">
-                          <i class="fa fa-angle-right mr-2"></i>Ver Carrito
-                        </a>
-                        <a class="text-secondary mb-2" href="Perfil.html">
-                          <i class="fa fa-angle-right mr-2"></i>Perfil
-                        </a>
-                      </div>
-                    </div>
-                    <div class="col-md-4 mb-5">
-                      <h6 class="text-secondary text-uppercase mt-4 mb-3">
-                        Síguenos
-                      </h6>
-                      <div class="d-flex">
-                        <a class="btn btn-primary btn-square mr-2" href="https://www.facebook.com/profile.php?id=100069208843188">
-                          <i class="fa-brands fa-facebook fa-lg"></i>
-                        </a>
-                        <a class="btn btn-primary btn-square" href="https://www.instagram.com/mdtecnologiapa?igsh=ZHdrNXoxeXZjaXBh">
-                          <i class="fa-brands fa-instagram fa-xl"></i>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+    const footer = document.querySelector("footer");
+    footer.className = "text-light bg-dark py-4";
+    footer.innerHTML = `
+      <div class="container">
+        <div class="row text-center text-md-start">
+          <!-- Sección Contacto -->
+          <div class="col-md-4 mb-3">
+            <h5 class="text-uppercase">Contáctenos</h5>
+            <p>
+              <i class="fa fa-envelope text-primary"></i>
+              mdtpanama@gmail.com
+            </p>
+            <p>
+              <i class="fa fa-phone-alt text-primary"></i>
+              +507 6030-9572
+            </p>
+          </div>
+          <!-- Sección MD Tecnología -->
+          <!-- Sección MD Tech -->
+          <div class="col-md-4 mb-3">
+            <h5 class="text-uppercase">MD Tech</h5>
+            <ul class="list-unstyled">
+              <li>
+                <a href="#" class="text-light text-decoration-none">Inicio</a>
+              </li>
+              <li>
+                <a href="#" class="text-light text-decoration-none"
+                  >Productos</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-light text-decoration-none"
+                  >Sobre Nosotros</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <!-- Sección Mi Cuenta -->
+          <div class="col-md-4 mb-3">
+            <h5 class="text-uppercase">Mi Cuenta</h5>
+            <ul class="list-unstyled">
+              <li>
+                <a href="#" class="text-light text-decoration-none"
+                  >Iniciar Sesión</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-light text-decoration-none"
+                  >Ver Carrito</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-light text-decoration-none">Perfil</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="row mb-3 justify-content-center">
+          <!-- Redes Sociales -->
+          <div class="col text-center">
+            <h5 class="text-uppercase">Síguenos</h5>
+            <a href="#" class="btn btn-primary rounded-circle me-2">
+              <i class="fa-brands fa-facebook"></i>
+            </a>
+            <a href="#" class="btn btn-primary rounded-circle">
+              <i class="fa-brands fa-instagram"></i>
+            </a>
+          </div>
+        </div>
+      </div>
         `;
 };
