@@ -1,10 +1,10 @@
 import { cart, loadBreadcrumb } from "./main.js";
-import { BASE_URL, eventManager } from "./utils.js";
+import { BASE_URL, eventManager, alert, alertRedireccion } from "./utils.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
   loadBreadcrumb([
-    { name: "Home", href: "Home.html" },
-    { name: "Productos", href: "Productos.html" },
+    { name: "Home", href: "/Home.html" },
+    { name: "Productos", href: "/Productos.html" },
     { name: "Mi Carrito", href: null },
   ]);
   try {
@@ -90,20 +90,24 @@ document.addEventListener("DOMContentLoaded", async () => {
     document
       .getElementById("finish-cart")!
       .addEventListener("click", function () {
+        scrollTo({ top: 0, behavior: "smooth" });
         let cliente: any = sessionStorage.getItem("cliente");
         if (cart.length === 0) {
-          alert("Carrito de compra vacío");
+          alert("Carrito de compra vacío", "warning");
           return false;
         }
         if (!cliente || !sessionStorage.getItem("token")) {
-          window.location.replace("/Login.html");
-          alert("Debe iniciar sesión antes de finalizar su compra");
+          alertRedireccion(
+            "/Login.html",
+            "Debe iniciar sesión antes de finalizar su compra",
+          );
           return false;
         }
         cliente = JSON.parse(cliente);
         if (!cliente.direcciones) {
           alert(
             "No tiene direcciones registradas, no es posible registrar su compra sin una dirección de envío",
+            "warning",
           );
           return;
         }
@@ -180,9 +184,12 @@ const finalizarVenta = eventManager(async () => {
     .then((data) => {
       console.log(data);
       if (data) {
-        alert("Gracias por su compra, su compra esta en proceso");
+        alert("Gracias por su compra, su compra esta en proceso", "success");
       } else {
-        alert("No se ha podido guardar su compra, intente nuevamente");
+        alert(
+          "No se ha podido guardar su compra, intente nuevamente",
+          "secondary",
+        );
       }
       localStorage.removeItem("cart");
     })

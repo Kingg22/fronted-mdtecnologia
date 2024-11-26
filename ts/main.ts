@@ -1,4 +1,5 @@
 import { BASE_URL, eventManager } from "./utils.js";
+import { Modal, Tooltip } from "bootstrap";
 
 /**
  * Representa a producto-detalle y 'cantidad' adicional para el carrito
@@ -51,9 +52,19 @@ document.addEventListener("DOMContentLoaded", async function () {
       });
     });
 
+  // Activar Tooltips
+  document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach((tooltip) => {
+    new Tooltip(tooltip);
+  });
+
   await cargarCategorias();
   cartTotal(cart);
 });
+
+export function showModal(id: string) {
+  const modal = new Modal(document.getElementById(id)!);
+  modal.show();
+}
 
 const cargarCategorias = eventManager(async () => {
   fetch(`${BASE_URL}/Categorias`)
@@ -337,65 +348,58 @@ export const loadFooter = () => {
         <div class="row text-center text-md-start">
           <!-- Sección Contacto -->
           <div class="col-md-4 mb-3">
-            <h5 class="text-uppercase">Contáctenos</h5>
-            <p>
+            <h5>CONTÁCTENOS</h5>
+            <a href="mailto:mdtpanama@gmail.com" class="btn text-light" data-bs-toggle="tooltip" data-bs-title="Correo">
               <i class="fa fa-envelope text-primary"></i>
               mdtpanama@gmail.com
-            </p>
-            <p>
+            </a>
+            <a href="https://api.whatsapp.com/send?phone=50766061426" class="btn text-light" 
+                data-bs-toggle="tooltip" data-bs-title="Whatsapp o llamadas">
               <i class="fa fa-phone-alt text-primary"></i>
               +507 6030-9572
-            </p>
+            </a>
           </div>
           <!-- Sección MD Tecnología -->
-          <!-- Sección MD Tech -->
           <div class="col-md-4 mb-3">
-            <h5 class="text-uppercase">MD Tech</h5>
+            <h5>MD TECNOLOGÍA</h5>
             <ul class="list-unstyled">
               <li>
-                <a href="#" class="text-light text-decoration-none">Inicio</a>
+                <a href="/Home.html" class="text-light text-decoration-none">Inicio</a>
               </li>
               <li>
-                <a href="#" class="text-light text-decoration-none"
-                  >Productos</a
-                >
+                <a href="/Productos.html" class="text-light text-decoration-none">Productos</a>
               </li>
               <li>
-                <a href="#" class="text-light text-decoration-none"
-                  >Sobre Nosotros</a
-                >
+                <a href="/Nosotros.html" class="text-light text-decoration-none">Sobre Nosotros</a>
               </li>
             </ul>
           </div>
-
           <!-- Sección Mi Cuenta -->
           <div class="col-md-4 mb-3">
-            <h5 class="text-uppercase">Mi Cuenta</h5>
+            <h5>MI CUENTA</h5>
             <ul class="list-unstyled">
               <li>
-                <a href="#" class="text-light text-decoration-none"
-                  >Iniciar Sesión</a
-                >
+                <a href="/Login.html" class="text-light text-decoration-none">Iniciar Sesión</a>
               </li>
               <li>
-                <a href="#" class="text-light text-decoration-none"
-                  >Ver Carrito</a
-                >
+                <a href="/Carrito.html" class="text-light text-decoration-none">Ver Carrito</a>
               </li>
               <li>
-                <a href="#" class="text-light text-decoration-none">Perfil</a>
+                <a href="/Perfil.html" class="text-light text-decoration-none">Perfil</a>
               </li>
             </ul>
           </div>
         </div>
         <div class="row mb-3 justify-content-center">
           <!-- Redes Sociales -->
-          <div class="col text-center">
+          <div class="col">
             <h5 class="text-uppercase">Síguenos</h5>
-            <a href="#" class="btn btn-primary rounded-circle me-2">
+            <a href="https://www.facebook.com/profile.php?id=100069208843188" class="btn btn-primary rounded-circle me-2" 
+               data-bs-toggle="tooltip" data-bs-title="Facebook">
               <i class="fa-brands fa-facebook"></i>
             </a>
-            <a href="#" class="btn btn-primary rounded-circle">
+            <a href="https://www.instagram.com/mdtecnologiapa" class="btn btn-primary rounded-circle"
+                data-bs-toggle="tooltip" data-bs-title="Instagram">
               <i class="fa-brands fa-instagram"></i>
             </a>
           </div>

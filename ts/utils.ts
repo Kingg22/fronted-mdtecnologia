@@ -18,3 +18,29 @@ export function eventManager<T extends unknown[], R>(
     }
   };
 }
+
+export function alertRedireccion(
+  url: string,
+  message: string,
+  timeout: number = 5000,
+) {
+  const alert = document.createElement("div");
+  alert.className = "alert alert-info";
+  alert.role = "alert";
+  alert.textContent = `${message}. Serás redirigido en ${timeout / 1000} segundos...`;
+  document.body.prepend(alert);
+  setTimeout(() => window.location.replace(url), timeout);
+}
+
+export function alert(
+  message: string,
+  type: string = "info",
+  timeout: number = 10000,
+) {
+  const alert = document.createElement("div");
+  alert.className = `alert alert-${type}`;
+  alert.role = "alert";
+  alert.textContent = message;
+  document.body.prepend(alert);
+  setTimeout(() => alert.remove(), timeout);
+}

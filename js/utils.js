@@ -15,3 +15,19 @@ export function eventManager(fun) {
         }
     };
 }
+export function alertRedireccion(url, message, timeout = 5000) {
+    const alert = document.createElement("div");
+    alert.className = "alert alert-info";
+    alert.role = "alert";
+    alert.textContent = `${message}. Serás redirigido en ${timeout / 1000} segundos...`;
+    document.body.prepend(alert);
+    setTimeout(() => window.location.replace(url), timeout);
+}
+export function alert(message, type = "info", timeout = 10000) {
+    const alert = document.createElement("div");
+    alert.className = `alert alert-${type}`;
+    alert.role = "alert";
+    alert.textContent = message;
+    document.body.prepend(alert);
+    setTimeout(() => alert.remove(), timeout);
+}

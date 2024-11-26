@@ -1,34 +1,15 @@
 import { BASE_URL, eventManager } from "./utils.js";
-import { cartTotal, cart, loadBreadcrumb } from "./main.js";
+import { cartTotal, cart, loadBreadcrumb, showModal, } from "./main.js";
 let product;
 document.addEventListener("DOMContentLoaded", () => {
     loadBreadcrumb([
-        { name: "Inicio", href: "Home.html" },
-        { name: "Productos", href: "Productos.html" },
+        { name: "Inicio", href: "/Home.html" },
+        { name: "Productos", href: "/Productos.html" },
         { name: "Detalle", href: null },
     ]);
     const productId = new URLSearchParams(window.location.search).get("id");
     if (!productId)
-        window.location.replace("/Productos.html");
-    // Carrusel de imágenes producto
-    const items = document.querySelectorAll(".carousel-item");
-    let currentIndex = 0;
-    const updateCarousel = () => {
-        items.forEach((item, index) => {
-            item.classList.remove("active");
-            if (index === currentIndex) {
-                item.classList.add("active");
-            }
-        });
-    };
-    document.getElementById("prev").addEventListener("click", () => {
-        currentIndex = currentIndex > 0 ? currentIndex - 1 : items.length - 1;
-        updateCarousel();
-    });
-    document.getElementById("next").addEventListener("click", () => {
-        currentIndex = currentIndex < items.length - 1 ? currentIndex + 1 : 0;
-        updateCarousel();
-    });
+        location.replace("/Productos.html");
     // Productos Cantidad
     document.querySelectorAll(".quantity button").forEach(function (button) {
         button.addEventListener("click", function () {
@@ -65,10 +46,23 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.getElementById("product-description").innerHTML =
                     data.producto.descripcion;
                 let imgs_html = "";
-                data.producto.imagenes.forEach((element) => {
-                    imgs_html += `<div class="carousel-item active"><img class="d-block w-100" src="${element.url}" alt=${element.description || "Imagen de referencia producto"}></div>`;
+                let img_indicator = "";
+                data.producto.imagenes.forEach((element, index) => {
+                    img_indicator += `<button
+                type="button"
+                data-bs-target="#carousel-producto"
+                data-bs-slide-to="${index}"
+                class="active"
+                aria-current="true"
+                aria-label="Slide ${index}"
+              ></button>`;
+                    imgs_html += `<div class="carousel-item ${index === 0 ? "active" : ""}">
+                <img class="d-block w-100" src="${element.url}" alt=${element.description || "Imagen de referencia producto"}></div>`;
                 });
-                document.getElementById("carousel-inner").innerHTML = imgs_html;
+                document.getElementById("producto-imagenes-indicators").innerHTML =
+                    img_indicator;
+                document.getElementById("producto-imagenes-carousel").innerHTML =
+                    imgs_html;
             }
         })
             .catch((error) => console.error("Error en detalle producto: ", error));
@@ -87,6 +81,6 @@ document.addEventListener("DOMContentLoaded", () => {
         cart.push(product);
         localStorage.setItem("cart", JSON.stringify(cart));
         cartTotal(cart);
-        alert("¡Se ha agregado con éxito!");
+        showModal("successModal");
     });
 });

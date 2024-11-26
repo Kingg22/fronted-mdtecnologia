@@ -43,63 +43,86 @@
 
     <!-- Shop Detail Start -->
     <main>
-      <div class="container-fluid pb-5">
-        <div class="row px-xl-5">
-          <div class="col-lg-5 mb-30">
-            <div id="carousel" class="carousel">
-              <div class="carousel-inner" id="carousel-inner"></div>
-              <button class="carousel-control-prev" id="prev">
-                <i class="fa fa-2x fa-angle-left text-dark"></i>
-              </button>
-              <button class="carousel-control-next" id="next">
-                <i class="fa fa-2x fa-angle-right text-dark"></i>
-              </button>
-            </div>
+      <div class="container-fluid row px-xl-5">
+        <!-- Carrusel de imágenes -->
+        <div class="col-lg-5 mb-30">
+          <div
+            id="carousel-producto"
+            class="carousel slide"
+            data-bs-theme="dark"
+          >
+            <div
+              id="producto-imagenes-indicators"
+              class="carousel-indicators"
+            ></div>
+            <div id="producto-imagenes-carousel" class="carousel-inner"></div>
+            <button
+              class="carousel-control-prev"
+              type="button"
+              data-bs-target="#carousel-producto"
+              data-bs-slide="prev"
+            >
+              <span
+                class="carousel-control-prev-icon"
+                aria-hidden="true"
+              ></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button
+              class="carousel-control-next"
+              type="button"
+              data-bs-target="#carousel-producto"
+              data-bs-slide="next"
+            >
+              <span
+                class="carousel-control-next-icon"
+                aria-hidden="true"
+              ></span>
+              <span class="visually-hidden">Next</span>
+            </button>
           </div>
+        </div>
 
-          <div class="col-lg-7 h-auto mb-30">
-            <div class="h-100 bg-light p-30">
-              <h3 id="product-name">Nombre</h3>
-              <h5 id="product-brand" class="font-weight-semi-bold mb-4">
-                Marca
-              </h5>
-              <h3 id="product-price" class="font-weight-bold mb-4">Precio</h3>
-              <label for="product-amount">Cantidad</label>
+        <div class="col-lg-7 h-auto mb-30">
+          <div class="h-100 bg-light p-30">
+            <h3 id="product-name">Nombre</h3>
+            <h5 id="product-brand" class="font-weight-semi-bold mb-4">Marca</h5>
+            <h3 id="product-price" class="font-weight-bold mb-4">Precio</h3>
 
-              <div class="d-flex align-items-center mb-4 pt-2">
-                <div class="input-group quantity mr-3" style="width: 130px">
-                  <div class="input-group-btn">
-                    <button class="btn btn-primary btn-minus">
-                      <i class="fa fa-minus"></i>
-                    </button>
-                  </div>
-                  <input
-                    type="text"
-                    class="form-control bg-secondary border-0 text-center"
-                    id="product-amount"
-                    name="product-amount"
-                    value="1"
-                  />
-                  <div class="input-group-btn">
-                    <button class="btn btn-primary btn-plus">
-                      <i class="fa fa-plus"></i>
-                    </button>
-                  </div>
+            <label for="product-amount">Cantidad</label>
+            <div class="d-flex align-items-center mb-4 pt-2">
+              <div class="input-group quantity me-3" style="width: 130px">
+                <div class="input-group-btn">
+                  <button class="btn btn-primary btn-minus">
+                    <i class="fa fa-minus"></i>
+                  </button>
                 </div>
-                <button class="btn btn-primary px-3" id="add-cart">
-                  <i class="fa fa-shopping-cart mr-1"></i>Añadir al Carrito
-                </button>
+                <input
+                  type="text"
+                  class="form-control bg-secondary border-0 text-center"
+                  id="product-amount"
+                  name="product-amount"
+                  value="1"
+                />
+                <div class="input-group-btn">
+                  <button class="btn btn-primary btn-plus">
+                    <i class="fa fa-plus"></i>
+                  </button>
+                </div>
               </div>
+              <button class="btn btn-primary px-3" id="add-cart">
+                <i class="fa fa-shopping-cart me-1"></i>Añadir al Carrito
+              </button>
             </div>
           </div>
+        </div>
 
-          <div class="col">
-            <div class="bg-light p-30">
-              <div class="tab-content">
-                <div class="tab-pane fade show active" id="tab-pane-1">
-                  <h4 class="mb-3">Descripción del Producto</h4>
-                  <p id="product-description"></p>
-                </div>
+        <div class="col p-3">
+          <div class="bg-light p-30">
+            <div class="tab-content">
+              <div class="tab-pane fade show active" id="tab-pane-1">
+                <h4 class="mb-3">Descripción del Producto</h4>
+                <p id="product-description"></p>
               </div>
             </div>
           </div>
@@ -107,6 +130,32 @@
       </div>
     </main>
     <!-- Shop Detail End -->
+
+    <!-- Modal de éxito Start -->
+    <div
+      class="modal fade"
+      id="successModal"
+      tabindex="-1"
+      aria-labelledby="successModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content bg-success">
+          <div class="modal-header">
+            <h5 class="modal-title text-white">¡Éxito!</h5>
+          </div>
+          <div class="modal-body text-white">
+            El producto ha sido añadido a tu carrito.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+              Cerrar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Módal de Éxito End -->
 
     <!-- Footer Start -->
     <footer></footer>

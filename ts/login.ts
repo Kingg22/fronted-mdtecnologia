@@ -1,17 +1,15 @@
-import { eventManager, BASE_URL } from "./utils.js";
+import { eventManager, BASE_URL, alertRedireccion, alert } from "./utils.js";
 import { loadBreadcrumb } from "./main.js";
 
+// TODO cambiar por feedback y validaciones de form
 document.addEventListener("DOMContentLoaded", async function () {
   loadBreadcrumb([
-    { name: "Home", href: "Home.html" },
-    { name: "Perfil", href: "Perfil.html" },
+    { name: "Home", href: "/Home.html" },
+    { name: "Perfil", href: "/Perfil.html" },
     { name: "Login", href: null },
   ]);
   const token = window.sessionStorage.getItem("token");
-  if (token) {
-    window.location.replace("/Perfil.html");
-    alert("Sesión iniciada");
-  }
+  if (token) alertRedireccion("/Perfil.html", "Sesión iniciada");
   document
     .getElementById("loginRST")!
     .addEventListener("submit", function (event) {
@@ -41,10 +39,11 @@ document.addEventListener("DOMContentLoaded", async function () {
         })
           .then((response) => response.json())
           .then((data) => {
+            scrollTo({ top: 0, behavior: "smooth" });
             if (data?.cliente) {
-              alert("Registro exitoso");
+              alert("Registro exitoso", "success");
             } else {
-              alert("Registro fallido");
+              alert("Registro fallido", "danger");
             }
             nombre.value = "";
             apellido.value = "";
@@ -55,7 +54,10 @@ document.addEventListener("DOMContentLoaded", async function () {
           })
           .catch((error) => {
             console.error("Error:", error);
-            alert("Hubo un problema con el registro, inténtelo de nuevo");
+            alert(
+              "Hubo un problema con el registro, inténtelo de nuevo",
+              "dark",
+            );
           });
       })();
     });
@@ -87,14 +89,14 @@ document.addEventListener("DOMContentLoaded", async function () {
               sessionStorage.setItem("cliente", JSON.stringify(data.cliente));
               window.location.href = "/Perfil.html";
             } else {
-              alert("Credenciales incorrectas");
+              alert("Credenciales incorrectas", "secondary");
             }
             username.value = "";
             password.value = "";
           })
           .catch((error) => {
             console.error("Error:", error);
-            alert("Hubo un problema con el inicio de sesión");
+            alert("Hubo un problema con el inicio de sesión", "dark");
           });
       })();
     });

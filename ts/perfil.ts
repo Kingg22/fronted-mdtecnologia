@@ -3,7 +3,7 @@ import { loadBreadcrumb } from "./main.js";
 
 document.addEventListener("DOMContentLoaded", async function () {
   loadBreadcrumb([
-    { name: "Home", href: "Home.html" },
+    { name: "Home", href: "/Home.html" },
     { name: "Perfil", href: null },
   ]);
   const ordersTableBody = document.getElementById(
